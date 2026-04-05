@@ -477,6 +477,17 @@ export default function Dashboard() {
     reader.readAsDataURL(file);
   };
 
+  const uploadToStorage = async (base64Str: string) => {
+    if (base64Str.startsWith("http")) return base64Str; // already uploaded
+    const res = await fetch(base64Str);
+    const blob = await res.blob();
+    const formData = new FormData();
+    formData.append("file", blob, "upload.jpg");
+    const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+    const data = await uploadRes.json();
+    return data.url;
+  };
+
   const handleGenerateShot = async (type: ShotType, refImg?: string | null) => {
     if (!canGenerate) return null;
     setIsGenerating(type);
@@ -484,31 +495,22 @@ export default function Dashboard() {
     setGenerationError(null);
     
     try {
-      const pGarments = { ...garments };
-      for (const k in pGarments) {
-        const val = pGarments[k as keyof typeof garments];
-        if (val) pGarments[k as keyof typeof garments] = await downscaleImage(val);
-      }
-      const pJewellery = { ...jewellery };
-      for (const k in pJewellery) {
-        const val = pJewellery[k as keyof typeof jewellery];
-        if (val) pJewellery[k as keyof typeof jewellery] = await downscaleImage(val);
-      }
-      const pHome = { ...homeAssets };
-      for (const k in pHome) {
-        const val = pHome[k as keyof typeof homeAssets];
-        if (val) pHome[k as keyof typeof homeAssets] = await downscaleImage(val);
-      }
-      const pPets = { ...petAssets };
-      for (const k in pPets) {
-        const val = pPets[k as keyof typeof petAssets];
-        if (val) pPets[k as keyof typeof petAssets] = await downscaleImage(val);
+      // 1. Prepare Base64 -> Supabase URLs for AI Models
+      let primaryImageUrl = "";
+      if (activeStudio === 'Apparel') {
+         if (apparelMode === 'dress' || apparelMode === 'saree') primaryImageUrl = await uploadToStorage(await downscaleImage(garments.dress!));
+         else if (apparelMode === 'laydown') primaryImageUrl = await uploadToStorage(await downscaleImage(garments.top || garments.dress!));
+         else if (garments.top && garments.bottom) primaryImageUrl = await uploadToStorage(await downscaleImage(garments.top)); // Fallback
+      } else if (activeStudio === 'Jewellery' && jewellery.necklace) {
+         primaryImageUrl = await uploadToStorage(await downscaleImage(jewellery.necklace));
       }
 
+      // 2. Queue Job
       const payload = {
-        activeStudio, apparelMode, modelConfig, environment, customPrompt, shotType: type,
-        garments: pGarments, jewellery: pJewellery, homeAssets: pHome, petAssets: pPets,
-        referenceImage: refImg || (type !== 'main' ? shotGallery.main : null)
+        imageUrl: primaryImageUrl,
+        category: activeStudio,
+        prompt: customPrompt,
+        shotType: type
       };
 
       const response = await fetch('/api/generate', {
@@ -518,16 +520,44 @@ export default function Dashboard() {
       });
       
       const data = await response.json();
-      if (data.success) {
-        if (type === 'main') setFinalImage(data.generatedImage);
-        else setShot(type, data.generatedImage);
-        setTimeout(() => setIsGenerating(null), 100);
-        return data.generatedImage;
-      } else {
+      if (!data.success) {
         setGenerationError(data.error || "A synthesis error occurred. Please try again.");
         setIsGenerating(null);
         return null;
       }
+
+      // 3. Poll for Background Completion
+      const generationId = data.generationId;
+      let isComplete = false;
+      let finalUrl = null;
+      let attempts = 0;
+
+      while (!isComplete && attempts < 40) { // 80s Max Timeout
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const statusRes = await fetch(`/api/generate/status?id=${generationId}`);
+        if (!statusRes.ok) continue;
+        const statusData = await statusRes.json();
+
+        if (statusData.status === 'completed') {
+           isComplete = true;
+           finalUrl = statusData.outputUrl;
+        } else if (statusData.status === 'failed' || statusData.error) {
+           isComplete = true;
+           setGenerationError("The AI engine failed to process this image.");
+        }
+        attempts++;
+      }
+
+      if (!finalUrl) {
+         setGenerationError("Processing timed out. The cluster is heavily loaded.");
+         setIsGenerating(null);
+         return null;
+      }
+
+      if (type === 'main') setFinalImage(finalUrl);
+      else setShot(type, finalUrl);
+      setTimeout(() => setIsGenerating(null), 100);
+      return finalUrl;
     } catch (error: any) {
       setGenerationError("Connection failure / Session timeout.");
       setIsGenerating(null);

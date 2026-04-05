@@ -276,9 +276,16 @@ function FadeIn({
    COMPONENTS
    ═══════════════════════════════════════════ */
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useAuth, UserButton } from "@clerk/nextjs";
 
 function Navbar() {
+  const { isSignedIn, isLoaded } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100">
       <div className="max-w-[1280px] mx-auto flex items-center justify-between px-6 h-[60px]">
@@ -296,25 +303,28 @@ function Navbar() {
           <Link href="#models" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">AI Models</Link>
         </div>
 
-        <div className="flex items-center gap-4">
-          <SignedIn>
-            <Link
-              href="/studio"
-              className="text-[13px] font-medium text-zinc-600 hover:text-zinc-900 transition-colors hidden sm:block"
-            >
-              Dashboard
-            </Link>
-            <UserButton />
-          </SignedIn>
-          <SignedOut>
-            <Link href="/sign-in" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors hidden sm:block">Log in</Link>
-            <Link
-              href="/sign-up"
-              className="bg-zinc-900 text-white text-[13px] font-medium px-5 py-2 rounded-full hover:bg-black transition-colors"
-            >
-              Open Studio
-            </Link>
-          </SignedOut>
+        <div className="flex items-center gap-3">
+          {(!mounted || !isLoaded) ? null : isSignedIn ? (
+            <>
+              <Link
+                href="/studio"
+                className="text-[13px] font-medium text-zinc-600 hover:text-zinc-900 transition-colors hidden sm:block"
+              >
+                Dashboard
+              </Link>
+              <UserButton />
+            </>
+          ) : (
+            <>
+              <Link href="/sign-in" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors hidden sm:block">Log in</Link>
+              <Link
+                href="/sign-up"
+                className="bg-zinc-900 text-white text-[13px] font-medium px-5 py-2 rounded-full hover:bg-black transition-colors"
+              >
+                Open Studio
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
