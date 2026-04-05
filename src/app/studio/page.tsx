@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useRef, DragEvent, ChangeEvent, useState, useEffect, useMemo } from "react";
+import Link from 'next/link';
+import NextImage from 'next/image';
 import { 
   Wand2, 
   UploadCloud, 
@@ -868,7 +870,13 @@ export default function Dashboard() {
                                 <div className={`aspect-[3/4] rounded-[28px] overflow-hidden mb-3 border-2 transition-all ${selectedModelId === model.id ? 'border-indigo-500 shadow-2xl shadow-indigo-500/40' : 'border-white/5'}`}>
                                     <div className="w-full h-full bg-zinc-900 flex items-center justify-center relative">
                                         {model.thumbnail.includes('.png') ? (
-                                            <img src={model.thumbnail} className="w-full h-full object-cover" alt={model.name} />
+                                            <NextImage 
+                                              src={model.thumbnail} 
+                                              fill
+                                              className="object-cover" 
+                                              alt={model.name} 
+                                              sizes="112px"
+                                            />
                                         ) : (
                                             <User className={`w-10 h-10 ${selectedModelId === model.id ? 'text-indigo-400' : 'text-zinc-700'}`} />
                                         )}
@@ -990,10 +998,16 @@ export default function Dashboard() {
                                                 {defaultShoes.map(shoe => (
                                                     <button 
                                                         key={shoe.id} onClick={() => handleDefaultShoe(shoe.url)} 
-                                                        className="aspect-square rounded-2xl border border-white/5 bg-zinc-950 overflow-hidden p-1.5 hover:border-indigo-500 transition-all group/shoe"
+                                                        className="aspect-square rounded-2xl border border-white/5 bg-zinc-950 overflow-hidden p-1.5 hover:border-indigo-500 transition-all group/shoe relative"
                                                         title={shoe.name}
                                                     >
-                                                        <img src={shoe.url} alt={shoe.name} className="w-full h-full object-contain group-hover/shoe:scale-110 transition-transform" />
+                                                        <NextImage 
+                                                          src={shoe.url} 
+                                                          alt={shoe.name} 
+                                                          fill
+                                                          className="object-contain p-1.5 group-hover/shoe:scale-110 transition-transform" 
+                                                          sizes="100px"
+                                                        />
                                                     </button>
                                                 ))}
                                                 <button 
@@ -1102,7 +1116,14 @@ export default function Dashboard() {
               )}
 
               {shotGallery[currentShot] && (
-                <img src={shotGallery[currentShot]!} className="w-full h-full object-cover relative z-10 animate-in fade-in duration-1000" alt="Generated VTO Result" />
+                <NextImage 
+                  src={shotGallery[currentShot]!} 
+                  fill
+                  priority
+                  className="object-cover relative z-10 animate-in fade-in duration-1000" 
+                  alt="Generated VTO Result"
+                  sizes="(max-width: 1280px) 100vw, 800px"
+                />
               )}
             </div>
 
@@ -1158,12 +1179,18 @@ export default function Dashboard() {
                                 : "border-dashed border-zinc-900 bg-zinc-950/10"}`}
                         >
                             {shotGallery[shot.id] ? (
-                                <>
-                                    <img src={shotGallery[shot.id]!} className="w-full h-full object-cover" alt={shot.label} />
+                                <div className="absolute inset-0">
+                                    <NextImage 
+                                      src={shotGallery[shot.id]!} 
+                                      fill
+                                      className="object-cover" 
+                                      alt={shot.label} 
+                                      sizes="200px"
+                                    />
                                     <div className="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <Layers className="w-4 h-4 text-indigo-400" />
                                     </div>
-                                </>
+                                </div>
                             ) : (
                                 <div className="hidden group-hover:flex absolute inset-0 items-center justify-center bg-black/60 backdrop-blur-sm transition-all text-[7px] font-black text-zinc-600 uppercase">
                                     Empty

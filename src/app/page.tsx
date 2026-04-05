@@ -1,7 +1,6 @@
-"use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ArrowRight,
@@ -205,11 +204,13 @@ function BeforeAfterSlider({
       }}
     >
       {/* After (full background) */}
-      <img
+      <Image
         src={after}
         alt="After"
-        className="absolute inset-0 w-full h-full object-cover"
+        fill
+        className="object-cover"
         draggable={false}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 50vw"
       />
 
       {/* Before (clipped) */}
@@ -217,11 +218,13 @@ function BeforeAfterSlider({
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
       >
-        <img
+        <Image
           src={before}
           alt="Before"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
           draggable={false}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 50vw"
         />
       </div>
 
@@ -446,10 +449,13 @@ export default function LandingPage() {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="relative h-full min-h-[480px]"
             >
-              <img
+              <Image
                 src="/assets/landing/hero.png"
                 alt="AI Fashion Model in studio"
-                className="absolute inset-0 w-full h-full object-cover object-top rounded-bl-[48px]"
+                fill
+                priority
+                className="object-cover object-top rounded-bl-[48px]"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               {/* floating badge */}
               <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md rounded-2xl px-5 py-4 shadow-lg border border-zinc-100">
@@ -614,10 +620,12 @@ export default function LandingPage() {
                     className="flex-1 flex flex-col"
                   >
                     <div className="flex-1 rounded-2xl overflow-hidden bg-zinc-200 mb-6 min-h-[380px] relative">
-                      <img
+                      <Image
                         src={current.image}
                         alt={current.label}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 60vw"
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
                         <p className="text-white text-[20px] font-semibold">
@@ -712,11 +720,13 @@ export default function LandingPage() {
             </FadeIn>
 
             <FadeIn delay={0.15}>
-              <div className="rounded-3xl overflow-hidden border border-zinc-100 shadow-lg aspect-[4/5] bg-white">
-                <img
+              <div className="rounded-3xl overflow-hidden border border-zinc-100 shadow-lg aspect-[4/5] bg-white relative">
+                <Image
                   src="/assets/landing/showcase_apparel.png"
                   alt="Diverse AI model showcase"
-                  className="w-full h-full object-contain"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             </FadeIn>
@@ -759,11 +769,13 @@ export default function LandingPage() {
             ].map((step, i) => (
               <FadeIn key={step.step} delay={i * 0.1}>
                 <div>
-                  <div className="rounded-2xl overflow-hidden bg-white aspect-[4/3] mb-6 border border-zinc-100 flex items-center justify-center p-4">
-                    <img
+                  <div className="rounded-2xl overflow-hidden bg-white aspect-[4/3] mb-6 border border-zinc-100 flex items-center justify-center p-4 relative">
+                    <Image
                       src={step.image}
                       alt={step.title}
-                      className="w-full h-full object-contain"
+                      fill
+                      className="object-contain p-4"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
                   <p className="text-[12px] text-zinc-400 font-medium mb-2">
