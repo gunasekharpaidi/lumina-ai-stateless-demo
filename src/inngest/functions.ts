@@ -4,8 +4,7 @@ import prisma from "@/lib/db";
 
 // @ts-ignore - Inngest types can be tricky depending on version installed
 export const processAIGeneration = inngest.createFunction(
-  { id: "process-ai-generation" },
-  { event: "studio/generate.requested" },
+  { id: "process-ai-generation", triggers: [{ event: "studio/generate.requested" }] },
   async ({ event, step }: { event: any, step: any }) => {
     const { generationId, inputUrl, prompt, category } = event.data;
 
