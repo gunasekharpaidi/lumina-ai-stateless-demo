@@ -344,6 +344,25 @@ export default function Dashboard() {
   const [isFootwearMenuOpen, setIsFootwearMenuOpen] = useState(false);
   const footwearInputRef = useRef<HTMLInputElement>(null);
 
+  // Credits system
+  const [userCredits, setUserCredits] = useState<number | null>(null);
+  const [userPlan, setUserPlan] = useState<string>("FREE");
+  const [totalCredits, setTotalCredits] = useState<number>(10);
+
+  useEffect(() => {
+    fetch("/api/credits")
+      .then(r => r.json())
+      .then(data => {
+        if (!data.error) {
+          setUserCredits(data.credits);
+          setUserPlan(data.plan);
+          setTotalCredits(data.totalCredits);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+
   const [isSareeValid, setIsSareeValid] = useState(true);
   const [isSareeGuideOpen, setIsSareeGuideOpen] = useState(false);
   const [isSareeManuallyConfirmed, setIsSareeManuallyConfirmed] = useState(false);
@@ -742,7 +761,55 @@ export default function Dashboard() {
             />
           </div>
         </div>
+
+        {/* Credits Widget */}
+        <div className="mt-auto pt-6 border-t border-white/5">
+          <div className="bg-zinc-950/60 rounded-[24px] border border-white/5 p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[9px] font-black text-zinc-600 uppercase tracking-[.3em]">Credits Remaining</p>
+                <p className="text-2xl font-black text-white mt-1">
+                  {userCredits === null ? "—" : userCredits}
+                  <span className="text-zinc-700 text-sm font-bold"> / {totalCredits}</span>
+                </p>
+              </div>
+              <div className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
+                userPlan === "PRO" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
+                userPlan === "STARTER" ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20" :
+                userPlan === "ENTERPRISE" ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20" :
+                "bg-zinc-800 text-zinc-500 border-transparent"
+              }`}>
+                {userPlan}
+              </div>
+            </div>
+
+            {/* Progress bar */}
+            <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-700 ${
+                  userCredits !== null && userCredits <= 2 ? "bg-red-500" :
+                  userCredits !== null && userCredits <= 5 ? "bg-amber-400" : "bg-indigo-500"
+                }`}
+                style={{ width: `${userCredits !== null ? (userCredits / totalCredits) * 100 : 100}%` }}
+              />
+            </div>
+
+            {userCredits !== null && userCredits <= 3 && (
+              <p className="text-[9px] text-red-400 font-bold uppercase tracking-widest animate-pulse">
+                ⚡ Running low on credits
+              </p>
+            )}
+
+            <a
+              href="/pricing"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-[.2em] transition-all shadow-lg shadow-indigo-500/20"
+            >
+              <Sparkles className="w-3.5 h-3.5" /> Upgrade Plan
+            </a>
+          </div>
+        </div>
       </aside>
+
 
       <main className="flex-1 bg-black relative flex flex-col overflow-hidden">
         
