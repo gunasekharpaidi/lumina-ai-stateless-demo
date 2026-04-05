@@ -17,6 +17,9 @@ import {
   Camera,
   ChevronRight,
   GripVertical,
+  Check,
+  Crown,
+  Building2,
 } from "lucide-react";
 
 /* ═══════════════════════════════════════════
@@ -301,6 +304,7 @@ function Navbar() {
           <Link href="#studios" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">Studios</Link>
           <Link href="#capabilities" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">Capabilities</Link>
           <Link href="#models" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">AI Models</Link>
+          <Link href="#pricing" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">Pricing</Link>
         </div>
 
         <div className="flex items-center gap-3">
@@ -777,6 +781,151 @@ export default function LandingPage() {
       </section>
 
       {/* ─── CTA ─── */}
+      {/* ─── PRICING ─── */}
+      <section id="pricing" className="py-24 md:py-32 px-6 bg-zinc-50 border-t border-zinc-100">
+        <div className="max-w-[1280px] mx-auto">
+          <FadeIn className="text-center mb-16">
+            <p className="text-[12px] font-semibold uppercase tracking-[.2em] text-zinc-400 mb-4">Pricing</p>
+            <h2 className="text-[36px] md:text-[48px] font-semibold tracking-tight leading-tight mb-4">
+              Simple, transparent pricing
+            </h2>
+            <p className="text-[16px] text-zinc-500 max-w-lg mx-auto">
+              Start free. Scale as your catalogue grows. No hidden fees.
+            </p>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {/* FREE */}
+            <FadeIn delay={0} className="bg-white rounded-3xl border border-zinc-200 p-8 flex flex-col hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center">
+                  <Sparkles className="w-4.5 h-4.5 text-zinc-500" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">Try it out</p>
+                  <h3 className="text-[16px] font-bold text-zinc-900">Free</h3>
+                </div>
+              </div>
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-zinc-900">₹0</span>
+                <span className="text-zinc-400 text-sm ml-1">forever</span>
+              </div>
+              <p className="text-[13px] text-zinc-400 mb-1">10 AI generations total</p>
+              <p className="text-[12px] text-zinc-300 mb-6">— per image</p>
+              <Link href="/sign-up" className="w-full py-3 rounded-2xl border border-zinc-200 text-zinc-700 text-[13px] font-semibold text-center hover:bg-zinc-50 transition-colors mb-8">
+                Get Started Free
+              </Link>
+              <div className="border-t border-zinc-100 pt-6 space-y-3 flex-1">
+                {["10 AI generations", "All studio types", "Standard resolution", "3 AI models", "Community support"].map(f => (
+                  <div key={f} className="flex items-center gap-2.5">
+                    <Check className="w-4 h-4 text-zinc-400 flex-shrink-0" />
+                    <span className="text-[13px] text-zinc-500">{f}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+
+            {/* STARTER */}
+            <FadeIn delay={0.1} className="bg-zinc-900 rounded-3xl border border-zinc-800 p-8 flex flex-col relative hover:shadow-lg transition-shadow ring-2 ring-zinc-900 ring-offset-2 ring-offset-zinc-50">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-widest">
+                Most Popular
+              </div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">For growing brands</p>
+                  <h3 className="text-[16px] font-bold text-white">Starter</h3>
+                </div>
+              </div>
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-white">₹999</span>
+                <span className="text-zinc-400 text-sm ml-1">/ month</span>
+              </div>
+              <p className="text-[13px] text-zinc-300 mb-1">75 AI generations / month</p>
+              <p className="text-[12px] text-zinc-500 mb-6">≈ ₹13.3 per image</p>
+              <Link href="/sign-up?plan=STARTER" className="w-full py-3 rounded-2xl bg-white text-zinc-900 text-[13px] font-semibold text-center hover:bg-zinc-100 transition-colors mb-8">
+                Start Selling
+              </Link>
+              <div className="border-t border-white/10 pt-6 space-y-3 flex-1">
+                {["75 AI generations / month", "All studio types", "HD resolution output", "15+ AI models", "AI Fix Canvas", "Priority email support", "Generation history"].map(f => (
+                  <div key={f} className="flex items-center gap-2.5">
+                    <Check className="w-4 h-4 text-white flex-shrink-0" />
+                    <span className="text-[13px] text-zinc-300">{f}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+
+            {/* PRO */}
+            <FadeIn delay={0.2} className="bg-white rounded-3xl border border-zinc-200 p-8 flex flex-col hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center">
+                  <Crown className="w-4 h-4 text-amber-600" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">For serious sellers</p>
+                  <h3 className="text-[16px] font-bold text-zinc-900">Pro</h3>
+                </div>
+              </div>
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-zinc-900">₹2,999</span>
+                <span className="text-zinc-400 text-sm ml-1">/ month</span>
+              </div>
+              <p className="text-[13px] text-zinc-400 mb-1">300 AI generations / month</p>
+              <p className="text-[12px] text-zinc-300 mb-6">≈ ₹10.0 per image</p>
+              <Link href="/sign-up?plan=PRO" className="w-full py-3 rounded-2xl border border-zinc-200 text-zinc-700 text-[13px] font-semibold text-center hover:bg-zinc-50 transition-colors mb-8">
+                Go Pro
+              </Link>
+              <div className="border-t border-zinc-100 pt-6 space-y-3 flex-1">
+                {["300 AI generations / month", "All Starter features", "Ultra-HD 4K output", "Batch generation (4 shots)", "Custom model training", "Saree specialist engine", "API access"].map(f => (
+                  <div key={f} className="flex items-center gap-2.5">
+                    <Check className="w-4 h-4 text-zinc-400 flex-shrink-0" />
+                    <span className="text-[13px] text-zinc-500">{f}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+
+            {/* ENTERPRISE */}
+            <FadeIn delay={0.3} className="bg-white rounded-3xl border border-zinc-200 p-8 flex flex-col hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
+                  <Building2 className="w-4 h-4 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">Large catalogues</p>
+                  <h3 className="text-[16px] font-bold text-zinc-900">Enterprise</h3>
+                </div>
+              </div>
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-zinc-900">Custom</span>
+              </div>
+              <p className="text-[13px] text-zinc-400 mb-1">Unlimited AI generations</p>
+              <p className="text-[12px] text-zinc-300 mb-6">Volume pricing available</p>
+              <Link href="mailto:hello@luminapro.ai" className="w-full py-3 rounded-2xl border border-zinc-200 text-zinc-700 text-[13px] font-semibold text-center hover:bg-zinc-50 transition-colors mb-8">
+                Contact Sales
+              </Link>
+              <div className="border-t border-zinc-100 pt-6 space-y-3 flex-1">
+                {["Unlimited generations", "All Pro features", "White-label solution", "Custom AI model fine-tuning", "Dedicated GPU cluster", "99.9% SLA guarantee", "Dedicated account manager"].map(f => (
+                  <div key={f} className="flex items-center gap-2.5">
+                    <Check className="w-4 h-4 text-zinc-400 flex-shrink-0" />
+                    <span className="text-[13px] text-zinc-500">{f}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+          </div>
+
+          <FadeIn className="mt-10 text-center">
+            <p className="text-[13px] text-zinc-400">
+              All plans include SSL encryption, GDPR compliance &amp; 99.9% uptime. No credit card required for Free plan.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
       <section className="py-24 md:py-32 px-6 bg-zinc-900 text-white">
         <div className="max-w-[640px] mx-auto text-center">
           <FadeIn>
