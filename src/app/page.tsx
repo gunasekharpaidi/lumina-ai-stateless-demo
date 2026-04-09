@@ -45,7 +45,6 @@ const STUDIOS = [
     body: "Necklaces, rings, watches — staged with refractive accuracy. Our engine understands metallic sheen, diamond facets, and skin-tone interaction at a macro level.",
     modes: ["Necklace", "Ring", "Watch"],
     image: "/assets/landing/after_jewellery.png",
-    comingSoon: true,
   },
   {
     id: "home",
@@ -55,7 +54,6 @@ const STUDIOS = [
     body: "Place your furniture, lighting fixtures, or textiles into ray-traced professional environments instantly. No physical set dressing required.",
     modes: ["Furniture", "Decor", "Lighting"],
     image: "/assets/landing/after_home.png",
-    comingSoon: true,
   },
   {
     id: "pets",
@@ -65,7 +63,6 @@ const STUDIOS = [
     body: "A specialized studio for pet-wear brands. Place your accessories on AI pet models with consistent breed features, fur texture, and natural lighting.",
     modes: ["Breed", "Outfit", "Accessory"],
     image: "/assets/landing/showcase_pets.png",
-    comingSoon: true,
   },
 ];
 
@@ -355,25 +352,18 @@ function StudioCard({
   const Icon = studio.icon;
   return (
     <button
-      onClick={() => !studio.comingSoon && onClick()}
-      className={`text-left p-5 rounded-2xl border transition-all duration-300 w-full relative group ${
+      onClick={onClick}
+      className={`text-left p-5 rounded-2xl border transition-all duration-300 w-full ${
         isActive
           ? "bg-zinc-900 text-white border-zinc-800 shadow-lg"
-          : studio.comingSoon
-          ? "bg-zinc-50 border-zinc-100 cursor-not-allowed opacity-60"
           : "bg-white border-zinc-100 hover:border-zinc-200 text-zinc-900"
       }`}
     >
-      <div className="flex items-center justify-between gap-3 mb-2">
-        <div className="flex items-center gap-3">
-            <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-zinc-400"}`} />
-            <span className="text-[13px] font-semibold">{studio.label}</span>
-        </div>
-        {studio.comingSoon && (
-            <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full">Coming Soon</span>
-        )}
+      <div className="flex items-center gap-3 mb-2">
+        <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-zinc-400"}`} />
+        <span className="text-[13px] font-semibold">{studio.label}</span>
       </div>
-      <p className={`text-[12px] leading-relaxed ${isActive ? "text-zinc-400" : studio.comingSoon ? "text-zinc-400" : "text-zinc-500"}`}>
+      <p className={`text-[12px] leading-relaxed ${isActive ? "text-zinc-400" : "text-zinc-500"}`}>
         {studio.headline}
       </p>
       {isActive && (
@@ -569,18 +559,12 @@ export default function LandingPage() {
                     <p className="text-[15px] text-zinc-500 leading-relaxed mb-8">
                       {currentBA.desc}
                     </p>
-                    {STUDIOS[activeStudio].comingSoon ? (
-                      <div className="inline-flex items-center gap-2 bg-zinc-100 text-zinc-400 text-[14px] font-medium px-6 py-3 rounded-full cursor-not-allowed">
-                        Coming Soon to Studio
-                      </div>
-                    ) : (
-                      <Link
-                        href="/studio"
-                        className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-medium px-6 py-3 rounded-full hover:bg-black transition-colors"
-                      >
-                        Try it yourself <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    )}
+                    <Link
+                      href="/studio"
+                      className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-medium px-6 py-3 rounded-full hover:bg-black transition-colors"
+                    >
+                      Try it yourself <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -637,7 +621,7 @@ export default function LandingPage() {
                     transition={{ duration: 0.3 }}
                     className="flex-1 flex flex-col"
                   >
-                    <div className="flex-1 rounded-2xl overflow-hidden bg-zinc-200 mb-6 min-h-[380px] relative">
+                    <div className="flex-1 rounded-2xl overflow-hidden bg-zinc-200 mb-6 min-h-[520px] relative aspect-[4/5] lg:aspect-auto">
                       <Image
                         src={current.image}
                         alt={current.label}
