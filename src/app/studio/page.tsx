@@ -435,11 +435,19 @@ export default function Dashboard() {
     if (modelConfig.age > ageConstraints.max) setModelConfig('age', ageConstraints.max);
   }, [modelConfig.gender]);
 
-  const studios: { id: StudioType, icon: any, label: string }[] = [
+  // -- SAFETY REDIRECT: Ensure users don't land on 'Coming Soon' studios --
+  useEffect(() => {
+    const restricted = ['Jewellery', 'Home', 'Pets'];
+    if (restricted.includes(activeStudio)) {
+      setActiveStudio('Apparel');
+    }
+  }, [activeStudio]);
+
+  const studios: { id: StudioType, icon: any, label: string, comingSoon?: boolean }[] = [
     { id: 'Apparel', icon: Shirt, label: 'Apparel' },
-    { id: 'Jewellery', icon: Gem, label: 'Jewellery' },
-    { id: 'Home', icon: Home, label: 'Home' },
-    { id: 'Pets', icon: Dog, label: 'Pets' }
+    { id: 'Jewellery', icon: Gem, label: 'Jewellery', comingSoon: true },
+    { id: 'Home', icon: Home, label: 'Home', comingSoon: true },
+    { id: 'Pets', icon: Dog, label: 'Pets', comingSoon: true }
   ];
 
   const skinTones: { id: SkinTone, color: string }[] = [
@@ -819,15 +827,28 @@ export default function Dashboard() {
            <div className="flex items-center gap-2 p-1.5 rounded-[24px] bg-zinc-950 border border-white/5 shadow-inner">
                 {studios.map(studio => (
                   <button
-                    key={studio.id} onClick={() => { setActiveStudio(studio.id); setFinalImage(null); }}
-                    className={`flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-300 ${
-                        activeStudio === studio.id 
-                            ? 'bg-white text-black shadow-2xl scale-[1.02]' 
-                            : 'text-zinc-500 hover:text-white'
+                    key={studio.id} 
+                    onClick={() => { 
+                      if (studio.comingSoon) return;
+                      setActiveStudio(studio.id); 
+                      setFinalImage(null); 
+                    }}
+                    disabled={studio.comingSoon}
+                    className={`flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-300 relative group/sbtn ${
+                        studio.comingSoon
+                            ? 'text-zinc-700 cursor-not-allowed grayscale opacity-50'
+                            : activeStudio === studio.id 
+                                ? 'bg-white text-black shadow-2xl scale-[1.02]' 
+                                : 'text-zinc-500 hover:text-white'
                     }`}
                   >
                     <studio.icon className={`w-4 h-4 ${activeStudio === studio.id ? 'text-indigo-600' : ''}`} />
                     <span className="text-[11px] font-black uppercase tracking-[.2em]">{studio.label}</span>
+                    {studio.comingSoon && (
+                      <span className="absolute -top-1 -right-2 px-1.5 py-0.5 rounded-full bg-indigo-500 text-[6px] font-black text-white uppercase tracking-tighter opacity-0 group-hover/sbtn:opacity-100 transition-opacity whitespace-nowrap z-10">
+                        Coming Soon
+                      </span>
+                    )}
                   </button>
                 ))}
            </div>

@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { auth } from "@clerk/nextjs/server";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// We MUST use the service_role key to bypass Row Level Security because we don't have RLS setup.
+// Admin access: We use the service_role key to bypass RLS for server-side uploads.
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
