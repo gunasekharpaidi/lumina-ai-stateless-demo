@@ -724,7 +724,7 @@ export default function LandingPage() {
             <FadeIn delay={0.15}>
               <div className="rounded-3xl overflow-hidden border border-zinc-100 shadow-lg aspect-[4/5] bg-white relative">
                 <Image
-                  src="/assets/landing/showcase_apparel.png"
+                  src="/assets/landing/showcase_personas_v2.png"
                   alt="Diverse AI model showcase"
                   fill
                   className="object-contain"
