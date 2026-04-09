@@ -7,18 +7,47 @@ export async function GET() {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { clerkId: userId },
       select: {
         credits: true,
         totalCredits: true,
         plan: true,
         creditsResetAt: true,
+        email: true,
         _count: { select: { generations: true } }
       }
     });
 
-    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+    // SELF-HEALING: If user is in Clerk but not our DB, create them now
+    if (!user) {
+      const { currentUser } = await import("@clerk/nextjs/server");
+      const clerkUser = await currentUser();
+      
+      if (!clerkUser) return NextResponse.json({ error: "User not found" }, { status: 404 });
+      
+      const email = clerkUser.emailAddresses[0]?.emailAddress;
+      const isAdmin = email === 'gunasekharpaidi@gmail.com';
+
+      user = await prisma.user.create({
+        data: {
+          clerkId: userId,
+          email: email,
+          credits: isAdmin ? 500 : 10,
+          totalCredits: isAdmin ? 500 : 10,
+          plan: isAdmin ? 'PRO' : 'FREE'
+        },
+        select: {
+          credits: true,
+          totalCredits: true,
+          plan: true,
+          creditsResetAt: true,
+          _count: { select: { generations: true } }
+        }
+      }) as any;
+    }
+
+    if (!user) return NextResponse.json({ error: "Failed to create user session" }, { status: 500 });
 
     return NextResponse.json({
       credits: user.credits,
