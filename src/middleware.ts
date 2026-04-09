@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-// All routes under /studio require authentication
-const isProtectedRoute = createRouteMatcher(['/studio(.*)'])
+// All routes under /studio and all /api routes (except webhooks) require authentication
+const isProtectedRoute = createRouteMatcher(['/studio(.*)', '/api((?!/webhooks/clerk).*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {

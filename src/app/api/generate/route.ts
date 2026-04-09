@@ -15,8 +15,18 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { imageUrl, prompt, category } = body;
 
+    const VALID_CATEGORIES = ['Apparel', 'Jewellery', 'Home', 'Pets'];
+
     if (!imageUrl || !category) {
       return NextResponse.json({ error: "Image URL and category are required" }, { status: 400 });
+    }
+
+    if (!VALID_CATEGORIES.includes(category)) {
+      return NextResponse.json({ error: "Invalid category" }, { status: 400 });
+    }
+
+    if (prompt && prompt.length > 500) {
+      return NextResponse.json({ error: "Prompt too long (max 500 chars)" }, { status: 400 });
     }
 
     // 3. Deduct User Credits
