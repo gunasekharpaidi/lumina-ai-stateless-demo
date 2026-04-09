@@ -772,52 +772,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Credits Widget */}
-        <div className="mt-auto pt-6 border-t border-white/5">
-          <div className="bg-zinc-950/60 rounded-[24px] border border-white/5 p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[9px] font-black text-zinc-600 uppercase tracking-[.3em]">Credits Remaining</p>
-                <p className="text-2xl font-black text-white mt-1">
-                  {userCredits === null ? "—" : userCredits}
-                  <span className="text-zinc-700 text-sm font-bold"> / {totalCredits}</span>
-                </p>
-              </div>
-              <div className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
-                userPlan === "PRO" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
-                userPlan === "STARTER" ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20" :
-                userPlan === "ENTERPRISE" ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20" :
-                "bg-zinc-800 text-zinc-500 border-transparent"
-              }`}>
-                {userPlan}
-              </div>
-            </div>
-
-            {/* Progress bar */}
-            <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-700 ${
-                  userCredits !== null && userCredits <= 2 ? "bg-red-500" :
-                  userCredits !== null && userCredits <= 5 ? "bg-amber-400" : "bg-indigo-500"
-                }`}
-                style={{ width: `${userCredits !== null ? (userCredits / totalCredits) * 100 : 100}%` }}
-              />
-            </div>
-
-            {userCredits !== null && userCredits <= 3 && (
-              <p className="text-[9px] text-red-400 font-bold uppercase tracking-widest animate-pulse">
-                ⚡ Running low on credits
-              </p>
-            )}
-
-            <a
-              href="/pricing"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-[.2em] transition-all shadow-lg shadow-indigo-500/20"
-            >
-              <Sparkles className="w-3.5 h-3.5" /> Upgrade Plan
-            </a>
-          </div>
-        </div>
       </aside>
 
 
@@ -854,24 +808,56 @@ export default function Dashboard() {
            </div>
 
            <div className="flex items-center gap-5">
-             {finalImage && (
-              <div className="flex items-center gap-3">
-                  <button onClick={() => setIsFixMode(true)} className="px-6 py-3 rounded-2xl bg-zinc-800 text-indigo-400 text-[11px] font-black transition-all flex items-center gap-3 hover:bg-zinc-700 border border-indigo-400/20">
-                    <Paintbrush className="w-5 h-5" /> AI Fix Canvas
-                  </button>
-                  <button onClick={handleDownload} className="px-6 py-3 rounded-2xl bg-indigo-600 text-white text-[11px] font-black transition-all flex items-center gap-3 hover:bg-indigo-500 shadow-2xl shadow-indigo-500/20">
-                    <Download className="w-5 h-5" /> Download Result
-                  </button>
-                  <button onClick={handleCloseResult} className="px-6 py-3 rounded-2xl bg-white text-black text-[11px] font-black transition-all flex items-center gap-3 hover:bg-neutral-200">
-                    <ChevronLeft className="w-5 h-5" /> Back to Studio
-                  </button>
+              <a href="/pricing" className="flex items-center gap-4 px-5 py-2 rounded-2xl bg-zinc-950 border border-white/5 hover:border-indigo-500/30 transition-all group">
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-black text-white tracking-widest uppercase">
+                      {userCredits ?? 0} / {totalCredits}
+                    </span>
+                    <span className={`px-1.5 py-0.5 rounded-md text-[7px] font-black uppercase tracking-tighter ${
+                      userPlan === "PRO" ? "bg-amber-500/20 text-amber-500" :
+                      userPlan === "STARTER" ? "bg-indigo-500/20 text-indigo-500" :
+                      "bg-zinc-800 text-zinc-500"
+                    }`}>
+                      {userPlan}
+                    </span>
+                  </div>
+                  <div className="w-full h-1 bg-zinc-900 rounded-full mt-1.5 overflow-hidden">
+                    <div 
+                      className={`h-full transition-all duration-500 ${
+                        userCredits !== null && userCredits <= 2 ? "bg-red-500" : "bg-indigo-500"
+                      }`}
+                      style={{ width: `${userCredits !== null ? (userCredits / totalCredits) * 100 : 100}%` }}
+                    />
+                  </div>
+                </div>
+                <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 transition-all">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-500 group-hover:text-white transition-all" />
+                </div>
+              </a>
+
+              <div className="w-[1px] h-8 bg-white/5 hidden md:block" />
+
+              <div className="flex items-center gap-5">
+               {finalImage && (
+                <div className="flex items-center gap-3">
+                    <button onClick={() => setIsFixMode(true)} className="px-6 py-3 rounded-2xl bg-zinc-800 text-indigo-400 text-[11px] font-black transition-all flex items-center gap-3 hover:bg-zinc-700 border border-indigo-400/20">
+                      <Paintbrush className="w-5 h-5" /> AI Fix Canvas
+                    </button>
+                    <button onClick={handleDownload} className="px-6 py-3 rounded-2xl bg-indigo-600 text-white text-[11px] font-black transition-all flex items-center gap-3 hover:bg-indigo-500 shadow-2xl shadow-indigo-500/20">
+                      <Download className="w-5 h-5" /> Download Result
+                    </button>
+                    <button onClick={handleCloseResult} className="px-6 py-3 rounded-2xl bg-white text-black text-[11px] font-black transition-all flex items-center gap-3 hover:bg-neutral-200">
+                      <ChevronLeft className="w-5 h-5" /> Back to Studio
+                    </button>
+                </div>
+               )}
+                <button onClick={() => { resetAll(); setGenerationError(null); }} className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 text-zinc-700 hover:text-red-500 transition-all">
+                  <RotateCcw className="w-5 h-5" />
+                </button>
               </div>
-             )}
-              <button onClick={() => { resetAll(); setGenerationError(null); }} className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 text-zinc-700 hover:text-red-500 transition-all">
-                <RotateCcw className="w-5 h-5" />
-              </button>
-           </div>
-        </header>
+            </div>
+         </header>
 
         <div className="flex-1 p-12 flex gap-12 items-start justify-center relative z-10 overflow-hidden">
           

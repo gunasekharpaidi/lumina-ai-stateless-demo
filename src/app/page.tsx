@@ -289,10 +289,21 @@ import { useAuth, UserButton } from "@clerk/nextjs";
 function Navbar() {
   const { isSignedIn, isLoaded } = useAuth();
   const [mounted, setMounted] = useState(false);
+  const [credits, setCredits] = useState<number | null>(null);
+  const [plan, setPlan] = useState<string>("FREE");
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    if (isSignedIn) {
+      fetch('/api/credits')
+        .then(res => res.json())
+        .then(data => {
+          setCredits(data.credits);
+          setPlan(data.plan);
+        })
+        .catch(err => console.error("Error fetching credits:", err));
+    }
+  }, [isSignedIn]);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100">
@@ -315,6 +326,16 @@ function Navbar() {
         <div className="flex items-center gap-3">
           {(!mounted || !isLoaded) ? null : isSignedIn ? (
             <>
+              <div className="flex items-center gap-3 px-3 py-1.5 rounded-xl bg-zinc-50 border border-zinc-100 mr-2">
+                <span className="text-[11px] font-bold text-zinc-900">{credits ?? 0} Credits</span>
+                <span className={`px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter ${
+                  plan === "PRO" ? "bg-amber-100 text-amber-600" :
+                  plan === "STARTER" ? "bg-indigo-100 text-indigo-600" :
+                  "bg-zinc-200 text-zinc-500"
+                }`}>
+                  {plan}
+                </span>
+              </div>
               <Link
                 href="/studio"
                 className="text-[13px] font-medium text-zinc-600 hover:text-zinc-900 transition-colors hidden sm:block"
