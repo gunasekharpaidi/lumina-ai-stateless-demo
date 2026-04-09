@@ -59,14 +59,19 @@ export async function POST(req: Request) {
     }
 
     try {
+      const email = email_addresses[0].email_address;
+      const isAdmin = email === 'gunasekharpaidi@gmail.com';
+      
       await prisma.user.create({
         data: {
           clerkId: id,
-          email: email_addresses[0].email_address,
-          // They get 10 default credits from schema definition
+          email: email,
+          credits: isAdmin ? 500 : 10,
+          totalCredits: isAdmin ? 500 : 10,
+          plan: isAdmin ? 'PRO' : 'FREE',
         },
       })
-      console.log(`User ${id} created in DB successfully.`)
+      console.log(`User ${id} (${email}) created in DB successfully. Admin: ${isAdmin}`)
     } catch (error) {
       console.error('Error creating user in DB:', error)
       return new Response('Error creating user', { status: 500 })
