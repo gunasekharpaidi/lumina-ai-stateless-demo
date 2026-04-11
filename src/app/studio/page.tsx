@@ -98,7 +98,7 @@ const DropzoneSlot = ({
       onMouseLeave={onMouseLeave}
       onClick={() => fileInputRef.current?.click()}
       className={`w-full h-full min-h-[100px] rounded-2xl border-2 border-dashed transition-all duration-300 relative cursor-pointer flex flex-col items-center justify-center gap-3 ${className}
-        ${isDragging ? "border-indigo-400 bg-indigo-500/10" : "border-zinc-800/50 bg-zinc-900/20 hover:border-indigo-500/30 hover:bg-indigo-500/5"}`}
+        ${isDragging ? "border-indigo-400 bg-indigo-50" : "border-zinc-200 bg-zinc-50/50 hover:border-indigo-500/30 hover:bg-zinc-100"}`}
     >
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); }} />
       {image ? (
@@ -115,10 +115,10 @@ const DropzoneSlot = ({
         </div>
       ) : (
         <>
-          <div className="p-3 rounded-2xl bg-zinc-950/40 border border-white/5 shadow-inner">
-            <Icon className={`w-6 h-6 ${isDragging ? "text-indigo-400" : "text-zinc-700"}`} />
+          <div className="p-3 rounded-2xl bg-white border border-zinc-200 shadow-sm">
+            <Icon className={`w-6 h-6 ${isDragging ? "text-indigo-600" : "text-zinc-400"}`} />
           </div>
-          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[.2em]">Upload {label}</p>
+          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[.2em]">Upload {label}</p>
         </>
       )}
     </div>
@@ -126,22 +126,22 @@ const DropzoneSlot = ({
 };
 
 const SareeGuideTooltip = () => (
-  <div className="w-[280px] p-6 rounded-[32px] bg-zinc-900 border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.8)] backdrop-blur-3xl animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
+  <div className="w-[280px] p-6 rounded-[32px] bg-white border border-zinc-200 shadow-[0_30px_60px_rgba(0,0,0,0.1)] backdrop-blur-3xl animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
     <div className="space-y-6">
-      <header className="flex items-center gap-3 border-b border-white/5 pb-4">
-        <div className="w-8 h-8 rounded-xl bg-indigo-500/20 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
+      <header className="flex items-center gap-3 border-b border-zinc-100 pb-4">
+        <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-indigo-600" />
         </div>
-        <span className="text-[10px] font-black text-white uppercase tracking-[.3em]">Master-Drape Guide</span>
+        <span className="text-[10px] font-black text-zinc-900 uppercase tracking-[.3em]">Master-Drape Guide</span>
       </header>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-3">
-            <div className="aspect-[3/2] rounded-xl bg-black border-2 border-emerald-500/30 relative overflow-hidden group/guide">
+            <div className="aspect-[3/2] rounded-xl bg-zinc-100 border-2 border-emerald-500/30 relative overflow-hidden group/guide">
                 <img src="/assets/guides/saree_guide_good.png" className="w-full h-full object-cover" alt="Correct Broad Shot" />
-                <div className="absolute top-2 right-2 bg-emerald-500 rounded-full p-0.5 shadow-lg"><Check className="w-2.5 h-2.5 text-black" /></div>
+                <div className="absolute top-2 right-2 bg-emerald-500 rounded-full p-0.5 shadow-lg"><Check className="w-2.5 h-2.5 text-white" /></div>
             </div>
-            <p className="text-[8px] font-black text-emerald-400 uppercase text-center tracking-tighter italic">✔ DO: Broad Shot</p>
+            <p className="text-[8px] font-black text-emerald-600 uppercase text-center tracking-tighter italic">✔ DO: Broad Shot</p>
         </div>
         <div className="space-y-3">
             <div className="aspect-[3/2] rounded-xl bg-black border-2 border-red-500/10 relative overflow-hidden opacity-60 grayscale group/guide">
@@ -152,11 +152,11 @@ const SareeGuideTooltip = () => (
         </div>
       </div>
 
-      <div className="bg-zinc-950 p-4 rounded-2xl border border-white/5 space-y-3">
-        <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest leading-relaxed">
-            AI captures the <span className="text-white">Pallu pattern</span> from the wide spread fabric. 
+      <div className="bg-zinc-50 p-4 rounded-2xl border border-zinc-100 space-y-3">
+        <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest leading-relaxed">
+            AI captures the <span className="text-zinc-900">Pallu pattern</span> from the wide spread fabric. 
         </p>
-        <p className="text-[8px] text-zinc-600 italic font-medium uppercase tracking-tighter">
+        <p className="text-[8px] text-zinc-400 italic font-medium uppercase tracking-tighter">
             Spread your saree flat on a floor or table before shooting.
         </p>
       </div>
@@ -245,8 +245,8 @@ const CanvasEditor = ({
     };
 
     return (
-        <div className="absolute inset-0 bg-black/90 z-[60] flex flex-col items-center justify-center p-10 animate-in fade-in duration-500">
-            <div className="relative group shadow-2xl rounded-[40px] overflow-hidden bg-black" style={{ aspectRatio: '3/4', maxHeight: '70vh' }}>
+        <div className="absolute inset-0 bg-white/95 z-[60] flex flex-col items-center justify-center p-10 animate-in fade-in duration-500 font-sans">
+            <div className="relative group shadow-2xl rounded-[40px] overflow-hidden bg-white border border-zinc-200" style={{ aspectRatio: '3/4', maxHeight: '70vh' }}>
                 <img src={image} className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" alt="Base" />
                 <canvas 
                     ref={canvasRef} width={600} height={800}
@@ -255,44 +255,51 @@ const CanvasEditor = ({
                     className={`relative z-10 w-full h-full cursor-crosshair opacity-80 mix-blend-screen transition-opacity ${isProcessing ? 'pointer-events-none opacity-20' : ''}`}
                 />
 
-                <div className="absolute top-6 left-6 z-20 flex items-center gap-2 px-3 py-1.5 bg-black/80 rounded-xl border border-white/10 backdrop-blur-md shadow-2xl">
-                    <Camera className="w-3 h-3 text-indigo-400" />
-                    <span className="text-[9px] font-black text-white uppercase tracking-[.2em]">Editing: {shotType}</span>
+                <div className="absolute top-6 left-6 z-20 flex items-center gap-2 px-3 py-1.5 bg-white/80 rounded-xl border border-zinc-200 backdrop-blur-md shadow-lg">
+                    <Camera className="w-3 h-3 text-indigo-600" />
+                    <span className="text-[9px] font-black text-zinc-900 uppercase tracking-[.2em]">Editing: {shotType}</span>
                 </div>
                 
                 {isProcessing && (
-                    <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-md animate-in fade-in duration-300">
+                    <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md animate-in fade-in duration-300">
                         <div className="relative mb-6">
-                            <div className="w-24 h-24 rounded-full border-2 border-indigo-500/20 flex items-center justify-center">
-                                <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+                            <div className="w-24 h-24 rounded-full border-2 border-indigo-100 flex items-center justify-center">
+                                <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
                             </div>
-                            <div className="absolute inset-0 w-24 h-24 rounded-full border-t-2 border-indigo-400 animate-spin duration-700"></div>
+                            <div className="absolute inset-0 w-24 h-24 rounded-full border-t-2 border-indigo-600 animate-spin duration-700"></div>
                         </div>
-                        <p className="text-[10px] font-black tracking-[.6em] text-white uppercase animate-pulse">Syncing Synthesis...</p>
-                        <p className="text-[8px] font-bold text-zinc-500 uppercase mt-4 tracking-widest">Applying Pixel-Perfect Retouch</p>
+                        <p className="text-[10px] font-black tracking-[.6em] text-zinc-900 uppercase animate-pulse">Syncing Synthesis...</p>
+                        <p className="text-[8px] font-bold text-zinc-400 uppercase mt-4 tracking-widest">Applying Pixel-Perfect Retouch</p>
                     </div>
                 )}
             </div>
 
-            <div className={`mt-8 w-full max-w-3xl bg-zinc-900 border border-white/10 rounded-[32px] p-8 flex flex-col gap-6 shadow-3xl transition-all duration-500 ${isProcessing ? 'opacity-50 pointer-events-none scale-95 grayscale' : ''}`}>
+            <div className={`mt-8 w-full max-w-3xl bg-white border border-zinc-200 rounded-[32px] p-8 flex flex-col gap-6 shadow-3xl transition-all duration-500 ${isProcessing ? 'opacity-50 pointer-events-none scale-95 grayscale' : ''}`}>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <div className="flex bg-black rounded-xl p-1 border border-white/5">
-                            <div className="flex items-center gap-1 bg-white/5 rounded-lg px-3 py-2 border border-indigo-400/20">
-                                <Paintbrush className="w-4 h-4 text-indigo-400" />
-                                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-tighter">Paint</span>
+                        <div className="w-10 h-10 rounded-full border border-zinc-200 p-0.5 bg-white shadow-sm ring-2 ring-zinc-50">
+                            <UserButton signOutUrl="/" />
+                        </div>
+                        <div className="flex bg-zinc-100 rounded-xl p-1 border border-zinc-200">
+                            <div className="flex items-center gap-1 bg-white rounded-lg px-3 py-2 border border-indigo-400/20 shadow-sm">
+                                <Paintbrush className="w-4 h-4 text-indigo-600" />
+                                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-tighter">Paint</span>
                             </div>
-                            <button onClick={setupCanvas} className="flex items-center gap-1 px-3 py-2 rounded-lg text-zinc-500 hover:text-white transition-all group" title="Clear Mask">
+                            <button onClick={setupCanvas} className="flex items-center gap-1 px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-900 transition-all group" title="Clear Mask">
                                 <Eraser className="w-4 h-4 group-hover:scale-110" />
                                 <span className="text-[10px] font-black uppercase tracking-tighter">Clear</span>
                             </button>
                         </div>
                         <div className="flex items-center gap-3">
-                            <span className="text-[9px] font-black text-zinc-800 uppercase">Size</span>
-                            <input type="range" min="10" max="150" value={brushSize} onChange={(e) => setBrushSize(parseInt(e.target.value))} className="w-32 accent-indigo-500" />
+                            <span className="text-[9px] font-black text-zinc-400 uppercase tracking-tighter">Size</span>
+                            <input 
+                              type="range" min="10" max="150" value={brushSize} 
+                              onChange={(e) => setBrushSize(parseInt(e.target.value))} 
+                              className="w-32 accent-indigo-600 h-1 rounded-full bg-zinc-100 appearance-none cursor-pointer" 
+                            />
                         </div>
                     </div>
-                    <button onClick={onCancel} className="text-zinc-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-colors">Cancel Retouch</button>
+                    <button onClick={onCancel} className="text-zinc-400 hover:text-red-500 text-[10px] font-black uppercase tracking-widest transition-colors">Cancel Retouch</button>
                 </div>
                 
                 <div className="space-y-4">
@@ -302,14 +309,14 @@ const CanvasEditor = ({
                     </div>
                     <div className="flex flex-wrap gap-2 min-h-[32px] max-h-[100px] overflow-y-auto no-scrollbar">
                         {isSuggesting ? (
-                            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-950 border border-white/5 animate-pulse">
-                                <Loader2 className="w-3 h-3 animate-spin text-zinc-700" />
-                                <span className="text-[8px] text-zinc-800 font-bold uppercase">Comparing Result vs Reference Assets...</span>
+                            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-50 border border-zinc-100 animate-pulse">
+                                <Loader2 className="w-3 h-3 animate-spin text-zinc-300" />
+                                <span className="text-[8px] text-zinc-400 font-bold uppercase">Comparing Result vs Reference Assets...</span>
                             </div>
                         ) : suggestions.map((s, idx) => (
                             <button 
                                 key={idx} onClick={() => setFixPrompt(s)}
-                                className="px-4 py-2 rounded-xl bg-zinc-950 border border-white/5 hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all text-[9px] font-bold text-zinc-300 hover:text-indigo-400 uppercase tracking-tighter"
+                                className="px-4 py-2 rounded-xl bg-zinc-50 border border-zinc-200 hover:border-indigo-200 hover:bg-indigo-50 transition-all text-[9px] font-bold text-zinc-500 hover:text-indigo-600 uppercase tracking-tighter"
                             >
                                 {s}
                             </button>
@@ -321,11 +328,11 @@ const CanvasEditor = ({
                     <input 
                         value={fixPrompt} onChange={(e) => setFixPrompt(e.target.value)}
                         placeholder="Describe the fix (e.g. 'Align the plaid pattern perfectly')"
-                        className="flex-1 bg-black border border-white/5 rounded-2xl px-6 py-4 text-xs text-white focus:outline-none focus:border-indigo-500 transition-all font-medium placeholder:text-zinc-800"
+                        className="flex-1 bg-zinc-50 border border-zinc-200 rounded-2xl px-6 py-4 text-xs text-zinc-900 focus:outline-none focus:border-indigo-500/30 transition-all font-medium placeholder:text-zinc-400 shadow-inner"
                     />
                     <button 
                         onClick={() => onApply(canvasRef.current?.toDataURL() || "", fixPrompt)}
-                        className={`px-8 rounded-2xl font-black text-[10px] uppercase flex items-center gap-3 transition-all ${fixPrompt ? "bg-white text-black hover:bg-neutral-200" : "bg-zinc-800 text-zinc-600 cursor-not-allowed"}`}
+                        className={`px-8 rounded-2xl font-black text-[10px] uppercase flex items-center gap-3 transition-all ${fixPrompt ? "bg-zinc-900 text-white hover:bg-black shadow-xl shadow-zinc-200" : "bg-zinc-100 text-zinc-400 cursor-not-allowed"}`}
                         disabled={!fixPrompt || isProcessing}
                     >
                         {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
@@ -665,13 +672,13 @@ export default function Dashboard() {
 
   const SectionHeader = ({ title, note }: { title: string, note: string }) => (
     <div className="space-y-1 mb-4">
-        <h3 className="text-[10px] font-black text-zinc-600 uppercase tracking-[.4em] leading-none">{title}</h3>
-        <p className="text-[8px] text-zinc-800 font-bold uppercase tracking-widest">{note}</p>
+        <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[.4em] leading-none">{title}</h3>
+        <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest">{note}</p>
     </div>
   );
 
   return (
-    <div className="flex h-screen w-full bg-[#050505] overflow-hidden font-sans text-zinc-300">
+    <div className="flex h-screen w-full bg-zinc-50 overflow-hidden font-sans text-zinc-600">
       
       {isFixMode && shotGallery[currentShot] && (
         <CanvasEditor 
@@ -684,14 +691,14 @@ export default function Dashboard() {
         />
       )}
 
-      <aside className="w-80 border-r border-white/5 bg-[#080808a0] backdrop-blur-3xl flex flex-col pt-10 pb-6 px-10 z-30 shadow-2xl overflow-y-auto no-scrollbar">
+      <aside className="w-80 border-r border-zinc-200 bg-white/80 backdrop-blur-3xl flex flex-col pt-10 pb-6 px-10 z-30 shadow-xl overflow-y-auto no-scrollbar">
         <div className="flex items-center gap-4 w-full mb-12">
             <div className="h-14 w-14 rounded-3xl bg-indigo-600 flex items-center justify-center shadow-2xl shadow-indigo-500/20 border border-indigo-400/20 group hover:scale-105 transition-all">
                 <Sparkles className="text-white w-7 h-7" />
             </div>
             <div>
-                <h1 className="text-2xl font-black tracking-tighter text-white leading-none">Lumina<span className="text-indigo-400 italic">Pro</span></h1>
-                <p className="text-[9px] uppercase tracking-[.4em] text-zinc-600 font-bold mt-2">v2.1 AI Hub</p>
+                <h1 className="text-2xl font-black tracking-tighter text-zinc-900 leading-none">Lumina<span className="text-indigo-600 italic">Pro</span></h1>
+                <p className="text-[9px] uppercase tracking-[.4em] text-zinc-400 font-bold mt-2">v2.1 AI Hub</p>
             </div>
         </div>
 
@@ -705,8 +712,8 @@ export default function Dashboard() {
                         key={env.id} onClick={() => setEnvironment(env.id)}
                         className={`flex flex-col items-center gap-3 p-4 rounded-[24px] border transition-all ${
                             environment === env.id 
-                                ? 'bg-indigo-600 text-white border-indigo-400 shadow-xl' 
-                                : 'bg-zinc-900/30 border-white/5 text-zinc-600 hover:text-white hover:border-white/10'
+                                ? 'bg-indigo-600 text-white border-indigo-500 shadow-xl' 
+                                : 'bg-white border-zinc-100 text-zinc-400 hover:text-zinc-900 hover:border-zinc-300'
                         }`}
                     >
                         <env.icon className="w-5 h-5" />
@@ -724,8 +731,8 @@ export default function Dashboard() {
                 key={g} onClick={() => setModelConfig('gender', g)}
                 className={`px-3 py-3 text-[11px] font-black rounded-2xl border transition-all uppercase tracking-tighter ${
                     modelConfig.gender === g 
-                    ? 'bg-zinc-800 text-white border-zinc-600' 
-                    : 'bg-zinc-950 border-transparent text-zinc-600 hover:bg-zinc-900'
+                    ? 'bg-zinc-900 text-white border-zinc-800' 
+                    : 'bg-white border-zinc-200 text-zinc-400 hover:bg-zinc-50'
                 }`}
                 >
                 {g}
@@ -740,7 +747,7 @@ export default function Dashboard() {
                         <button
                             key={tone.id} onClick={() => setModelConfig('skinTone', tone.id)}
                             className={`w-7 h-7 rounded-full border-2 transition-all ${
-                                modelConfig.skinTone === tone.id ? 'border-indigo-500 scale-125 shadow-lg' : 'border-white/10 hover:scale-110'
+                                modelConfig.skinTone === tone.id ? 'border-indigo-500 scale-125 shadow-lg' : 'border-zinc-200 hover:scale-110'
                             }`}
                             style={{ backgroundColor: tone.color }}
                             title={tone.id}
@@ -751,13 +758,13 @@ export default function Dashboard() {
 
             <div className="space-y-6 pt-4">
                 <div className="flex justify-between items-center">
-                    <label className="text-[10px] text-zinc-600 font-black uppercase tracking-widest leading-none">Age: <span className="text-white ml-2 text-sm">{modelConfig.age}</span></label>
-                    <span className="text-[9px] text-zinc-700 font-black italic uppercase tracking-tighter">{ageConstraints.label}</span>
+                    <label className="text-[10px] text-zinc-400 font-black uppercase tracking-widest leading-none">Age: <span className="text-zinc-900 ml-2 text-sm">{modelConfig.age}</span></label>
+                    <span className="text-[9px] text-zinc-400 font-black italic uppercase tracking-tighter">{ageConstraints.label}</span>
                 </div>
                 <input 
                     type="range" min={ageConstraints.min} max={ageConstraints.max} value={modelConfig.age}
                     onChange={(e) => setModelConfig('age', parseInt(e.target.value))}
-                    className="w-full accent-indigo-600 h-1 rounded-full bg-zinc-900 appearance-none cursor-pointer"
+                    className="w-full accent-indigo-600 h-1 rounded-full bg-zinc-200 appearance-none cursor-pointer"
                 />
             </div>
           </div>
@@ -767,7 +774,7 @@ export default function Dashboard() {
             <textarea 
               value={customPrompt} onChange={(e) => setCustomPrompt(e.target.value)}
               placeholder="e.g. Drape the saree with elegant pleats, soft lighting..."
-              className="w-full bg-zinc-900/10 border border-white/5 rounded-3xl text-[11px] text-white p-5 min-h-[100px] focus:outline-none focus:border-indigo-500/30 placeholder:text-zinc-800 resize-none transition-all"
+              className="w-full bg-zinc-50 border border-zinc-200 rounded-3xl text-[11px] text-zinc-900 p-5 min-h-[100px] focus:outline-none focus:border-indigo-500/30 placeholder:text-zinc-400 resize-none transition-all shadow-inner"
             />
           </div>
         </div>
@@ -775,10 +782,10 @@ export default function Dashboard() {
       </aside>
 
 
-      <main className="flex-1 bg-black relative flex flex-col overflow-hidden">
+      <main className="flex-1 bg-zinc-50 relative flex flex-col overflow-hidden">
         
-        <header className="h-24 border-b border-white/5 flex items-center justify-between px-12 relative z-40 backdrop-blur-3xl bg-black/50">
-           <div className="flex items-center gap-2 p-1.5 rounded-[24px] bg-zinc-950 border border-white/5 shadow-inner">
+        <header className="h-24 border-b border-zinc-200 flex items-center justify-between px-12 relative z-40 backdrop-blur-3xl bg-white/50">
+           <div className="flex items-center gap-2 p-1.5 rounded-[24px] bg-zinc-100 border border-zinc-200 shadow-inner">
                 {studios.map(studio => (
                   <button
                     key={studio.id} 
@@ -790,10 +797,10 @@ export default function Dashboard() {
                     disabled={studio.comingSoon}
                     className={`flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-300 relative group/sbtn ${
                         studio.comingSoon
-                            ? 'text-zinc-700 cursor-not-allowed grayscale opacity-50'
+                            ? 'text-zinc-300 cursor-not-allowed grayscale opacity-50'
                             : activeStudio === studio.id 
-                                ? 'bg-white text-black shadow-2xl scale-[1.02]' 
-                                : 'text-zinc-500 hover:text-white'
+                                ? 'bg-white text-zinc-900 shadow-xl scale-[1.02] border border-zinc-100' 
+                                : 'text-zinc-500 hover:text-zinc-900'
                     }`}
                   >
                     <studio.icon className={`w-4 h-4 ${activeStudio === studio.id ? 'text-indigo-600' : ''}`} />
@@ -808,31 +815,31 @@ export default function Dashboard() {
            </div>
 
            <div className="flex items-center gap-5">
-              <a href="/pricing" className="flex items-center gap-4 px-5 py-2 rounded-2xl bg-zinc-950 border border-white/5 hover:border-indigo-500/30 transition-all group">
+              <a href="/pricing" className="flex items-center gap-4 px-5 py-2 rounded-2xl bg-white border border-zinc-200 hover:border-indigo-300 transition-all group shadow-sm">
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-black text-white tracking-widest uppercase">
+                    <span className="text-[10px] font-black text-zinc-900 tracking-widest uppercase">
                       {userCredits ?? 0} / {totalCredits}
                     </span>
                     <span className={`px-1.5 py-0.5 rounded-md text-[7px] font-black uppercase tracking-tighter ${
-                      userPlan === "PRO" ? "bg-amber-500/20 text-amber-500" :
-                      userPlan === "STARTER" ? "bg-indigo-500/20 text-indigo-500" :
-                      "bg-zinc-800 text-zinc-500"
+                      userPlan === "PRO" ? "bg-amber-100 text-amber-600" :
+                      userPlan === "STARTER" ? "bg-indigo-100 text-indigo-600" :
+                      "bg-zinc-100 text-zinc-500"
                     }`}>
                       {userPlan}
                     </span>
                   </div>
-                  <div className="w-full h-1 bg-zinc-900 rounded-full mt-1.5 overflow-hidden">
+                  <div className="w-full h-1 bg-zinc-100 rounded-full mt-1.5 overflow-hidden">
                     <div 
                       className={`h-full transition-all duration-500 ${
-                        userCredits !== null && userCredits <= 2 ? "bg-red-500" : "bg-indigo-500"
+                        userCredits !== null && userCredits <= 2 ? "bg-red-500" : "bg-indigo-600"
                       }`}
                       style={{ width: `${userCredits !== null ? (userCredits / totalCredits) * 100 : 100}%` }}
                     />
                   </div>
                 </div>
-                <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 transition-all">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-500 group-hover:text-white transition-all" />
+                <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-600 transition-all">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600 group-hover:text-white transition-all" />
                 </div>
               </a>
 
@@ -841,18 +848,18 @@ export default function Dashboard() {
               <div className="flex items-center gap-5">
                {finalImage && (
                 <div className="flex items-center gap-3">
-                    <button onClick={() => setIsFixMode(true)} className="px-6 py-3 rounded-2xl bg-zinc-800 text-indigo-400 text-[11px] font-black transition-all flex items-center gap-3 hover:bg-zinc-700 border border-indigo-400/20">
+                    <button onClick={() => setIsFixMode(true)} className="px-6 py-3 rounded-2xl bg-white text-indigo-600 text-[11px] font-black transition-all flex items-center gap-3 hover:bg-indigo-50 border border-indigo-200 shadow-sm">
                       <Paintbrush className="w-5 h-5" /> AI Fix Canvas
                     </button>
-                    <button onClick={handleDownload} className="px-6 py-3 rounded-2xl bg-indigo-600 text-white text-[11px] font-black transition-all flex items-center gap-3 hover:bg-indigo-500 shadow-2xl shadow-indigo-500/20">
+                    <button onClick={handleDownload} className="px-6 py-3 rounded-2xl bg-indigo-600 text-white text-[11px] font-black transition-all flex items-center gap-3 hover:bg-indigo-700 shadow-lg shadow-indigo-100">
                       <Download className="w-5 h-5" /> Download Result
                     </button>
-                    <button onClick={handleCloseResult} className="px-6 py-3 rounded-2xl bg-white text-black text-[11px] font-black transition-all flex items-center gap-3 hover:bg-neutral-200">
+                    <button onClick={handleCloseResult} className="px-6 py-3 rounded-2xl bg-black text-white text-[11px] font-black transition-all flex items-center gap-3 hover:bg-zinc-800">
                       <ChevronLeft className="w-5 h-5" /> Back to Studio
                     </button>
                 </div>
                )}
-                <button onClick={() => { resetAll(); setGenerationError(null); }} className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 text-zinc-700 hover:text-red-500 transition-all">
+                <button onClick={() => { resetAll(); setGenerationError(null); }} className="p-4 rounded-2xl bg-white border border-zinc-200 text-zinc-400 hover:text-red-500 hover:border-red-200 transition-all shadow-sm">
                   <RotateCcw className="w-5 h-5" />
                 </button>
               </div>
@@ -874,8 +881,8 @@ export default function Dashboard() {
                                 key={model.id} onClick={() => setSelectedModelId(model.id)}
                                 className={`flex-shrink-0 w-28 group transition-all ${selectedModelId === model.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}`}
                             >
-                                <div className={`aspect-[3/4] rounded-[28px] overflow-hidden mb-3 border-2 transition-all ${selectedModelId === model.id ? 'border-indigo-500 shadow-2xl shadow-indigo-500/40' : 'border-white/5'}`}>
-                                    <div className="w-full h-full bg-zinc-900 flex items-center justify-center relative">
+                                <div className={`aspect-[3/4] rounded-[28px] overflow-hidden mb-3 border-2 transition-all ${selectedModelId === model.id ? 'border-indigo-600 shadow-2xl shadow-indigo-100' : 'border-zinc-100 hover:border-zinc-200'}`}>
+                                    <div className="w-full h-full bg-zinc-50 flex items-center justify-center relative">
                                         {model.thumbnail.includes('.png') ? (
                                             <NextImage 
                                               src={model.thumbnail} 
@@ -885,7 +892,7 @@ export default function Dashboard() {
                                               sizes="112px"
                                             />
                                         ) : (
-                                            <User className={`w-10 h-10 ${selectedModelId === model.id ? 'text-indigo-400' : 'text-zinc-700'}`} />
+                                            <User className={`w-10 h-10 ${selectedModelId === model.id ? 'text-indigo-600' : 'text-zinc-200'}`} />
                                         )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-4">
                                             <div className="text-left w-full">
@@ -903,8 +910,8 @@ export default function Dashboard() {
                             </button>
                         ))}
                         {MODEL_LIBRARY.filter(m => m.gender === modelConfig.gender).length === 0 && (
-                            <div className="w-full py-8 text-center bg-zinc-900/50 rounded-2xl border border-white/5">
-                                <p className="text-[8px] font-black text-zinc-700 uppercase tracking-widest">No profiles for {modelConfig.gender}</p>
+                            <div className="w-full py-8 text-center bg-zinc-50 rounded-2xl border border-zinc-100">
+                                <p className="text-[8px] font-black text-zinc-300 uppercase tracking-widest">No profiles for {modelConfig.gender}</p>
                             </div>
                         )}
                      </div>
@@ -912,11 +919,11 @@ export default function Dashboard() {
 
                    <div className="space-y-4">
                      <SectionHeader title="Hub Config" note="Product asset deployment" />
-                     <div className="grid grid-cols-2 gap-2 bg-zinc-900/60 p-1.5 rounded-2xl border border-white/5">
+                     <div className="grid grid-cols-2 gap-2 bg-zinc-100 p-1.5 rounded-2xl border border-zinc-200 shadow-inner">
                         {['separates', 'dress', 'saree', 'laydown'].map((m) => (
                             <button 
                                 key={m} onClick={() => setApparelMode(m as ApparelMode)} 
-                                className={`px-2 py-2 text-[8px] font-black uppercase rounded-xl transition-all ${apparelMode === m ? 'bg-zinc-800 text-white shadow-xl' : 'text-zinc-600 hover:text-zinc-400'}`}
+                                className={`px-2 py-2 text-[8px] font-black uppercase rounded-xl transition-all ${apparelMode === m ? 'bg-white text-zinc-900 shadow-lg border border-zinc-100' : 'text-zinc-400 hover:text-zinc-600'}`}
                             >
                                 {m}
                             </button>
@@ -994,18 +1001,18 @@ export default function Dashboard() {
                                     onMouseEnter={() => setIsFootwearMenuOpen(true)}
                                 />
                                 {isFootwearMenuOpen && (
-                                    <div className="absolute top-0 left-full ml-4 z-50 w-72 bg-zinc-900 border border-white/10 rounded-[32px] p-6 shadow-3xl animate-in slide-in-from-left-4 fade-in duration-300" onMouseLeave={() => setIsFootwearMenuOpen(false)}>
+                                    <div className="absolute top-0 left-full ml-4 z-50 w-72 bg-white border border-zinc-200 rounded-[32px] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.1)] animate-in slide-in-from-left-4 fade-in duration-300" onMouseLeave={() => setIsFootwearMenuOpen(false)}>
                                         <div className="space-y-4">
-                                            <header className="flex items-center gap-2 border-b border-white/5 pb-3">
-                                                <MousePointer2 className="w-3 h-3 text-indigo-400" />
-                                                <span className="text-[10px] font-black text-white uppercase tracking-widest">Library Select</span>
+                                            <header className="flex items-center gap-2 border-b border-zinc-100 pb-3">
+                                                <MousePointer2 className="w-3 h-3 text-indigo-600" />
+                                                <span className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Library Select</span>
                                             </header>
                                             <div className="grid grid-cols-3 gap-3">
                                                 <input type="file" ref={footwearInputRef} className="hidden" accept="image/*" onChange={handleCustomFootwear} />
                                                 {defaultShoes.map(shoe => (
                                                     <button 
                                                         key={shoe.id} onClick={() => handleDefaultShoe(shoe.url)} 
-                                                        className="aspect-square rounded-2xl border border-white/5 bg-zinc-950 overflow-hidden p-1.5 hover:border-indigo-500 transition-all group/shoe relative"
+                                                        className="aspect-square rounded-2xl border border-zinc-100 bg-zinc-50 overflow-hidden p-1.5 hover:border-indigo-300 transition-all group/shoe relative"
                                                         title={shoe.name}
                                                     >
                                                         <NextImage 
@@ -1019,9 +1026,9 @@ export default function Dashboard() {
                                                 ))}
                                                 <button 
                                                     onClick={() => footwearInputRef.current?.click()}
-                                                    className="aspect-square rounded-2xl border border-dashed border-zinc-800 flex items-center justify-center hover:border-indigo-400 transition-all cursor-pointer group/upload"
+                                                    className="aspect-square rounded-2xl border border-dashed border-zinc-200 flex items-center justify-center hover:border-indigo-400 transition-all cursor-pointer group/upload bg-zinc-50"
                                                 >
-                                                    <UploadCloud className="w-4 h-4 text-zinc-600 group-hover/upload:text-indigo-400 transition-colors" />
+                                                    <UploadCloud className="w-4 h-4 text-zinc-400 group-hover/upload:text-indigo-400 transition-colors" />
                                                 </button>
                                             </div>
                                         </div>
@@ -1069,7 +1076,7 @@ export default function Dashboard() {
           </div>
 
           <section className="flex-1 flex flex-col items-center justify-start h-full">
-             <div className={`relative w-full rounded-[48px] overflow-hidden transition-all duration-1000 shadow-[0_50px_120px_rgba(0,0,0,1)] bg-zinc-950 border border-white/5 ${finalImage ? 'ring-2 ring-white/10 scale-[1.02]' : 'opacity-40'}`}
+             <div className={`relative w-full rounded-[48px] overflow-hidden transition-all duration-1000 shadow-[0_50px_120px_rgba(0,0,0,0.06)] bg-white border border-zinc-200 ${finalImage ? 'ring-2 ring-indigo-50 scale-[1.02]' : 'opacity-40'}`}
                  style={{ aspectRatio: '3 / 4', maxWidth: '600px' }}>
               
               {!shotGallery[currentShot] && !isGenerating && !isBatchRunning && (
@@ -1087,7 +1094,7 @@ export default function Dashboard() {
                        </div>
                     ) : (
                        <>
-                        <div className="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center border border-white/5 shadow-inner">
+                        <div className="w-20 h-20 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100 shadow-inner">
                             <Sparkles className={`w-8 h-8 ${canGenerate ? 'text-indigo-600 animate-pulse' : 'text-zinc-800'}`} />
                         </div>
                         <div className="space-y-4">
@@ -1106,18 +1113,18 @@ export default function Dashboard() {
               )}
 
               {(isGenerating || isBatchRunning) && (
-                <div className="absolute inset-0 bg-black z-50 flex flex-col items-center justify-center text-white px-10">
+                <div className="absolute inset-0 bg-white/95 z-50 flex flex-col items-center justify-center text-zinc-900 px-10 backdrop-blur-3xl animate-in fade-in duration-500">
                   <div className="relative mb-16">
-                    <div className="w-48 h-48 rounded-full border border-white/5 flex items-center justify-center">
+                    <div className="w-48 h-48 rounded-full border border-zinc-100 flex items-center justify-center">
                         <div className="absolute inset-0 m-auto w-36 h-36 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin duration-700"></div>
-                        <Wand2 className="w-10 h-10 text-indigo-400 animate-pulse" />
+                        <Wand2 className="w-10 h-10 text-indigo-600 animate-pulse" />
                     </div>
                   </div>
                   <div className="text-center space-y-6">
-                    <h2 className="text-3xl font-black tracking-tighter italic">
+                    <h2 className="text-3xl font-black tracking-tighter italic text-zinc-900">
                         {isBatchRunning ? `Drafting Gallery: ${Math.floor(batchProgress)}%` : isGenerating === 'fix' ? 'Applying AI Retouch...' : `Spectral Synthesis...`}
                     </h2>
-                    <p className="text-[9px] text-zinc-700 font-black uppercase tracking-[.8em]">Lumina Core v7.0 Pro</p>
+                    <p className="text-[9px] text-zinc-400 font-black uppercase tracking-[.8em]">Lumina Core v7.0 Pro</p>
                   </div>
                 </div>
               )}
@@ -1138,7 +1145,7 @@ export default function Dashboard() {
                 <button 
                     onClick={() => handleGenerateShot('main')}
                     className={`h-16 px-10 rounded-[28px] font-black tracking-[.4em] text-[10px] flex items-center gap-4 uppercase transition-all shadow-xl
-                    ${canGenerate ? "bg-white text-black hover:bg-neutral-200 active:scale-95 shadow-white/10" : "bg-zinc-900/50 text-zinc-800 cursor-not-allowed"}`}
+                    ${canGenerate ? "bg-black text-white hover:bg-zinc-800 active:scale-95 shadow-zinc-200" : "bg-zinc-100 text-zinc-300 cursor-not-allowed"}`}
                     disabled={!canGenerate || !!isGenerating || isBatchRunning}
                 >
                     {isGenerating === 'main' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
@@ -1148,7 +1155,7 @@ export default function Dashboard() {
                 <button 
                     onClick={gENERATE_aLL}
                     className={`h-16 px-10 rounded-[28px] font-black tracking-[.4em] text-[10px] flex items-center gap-4 uppercase transition-all shadow-xl
-                    ${canGenerate ? "bg-indigo-600 text-white hover:bg-indigo-500 shadow-indigo-600/20 active:scale-95" : "bg-zinc-900/50 text-zinc-800 cursor-not-allowed"}`}
+                    ${canGenerate ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100 active:scale-95" : "bg-zinc-100 text-zinc-300 cursor-not-allowed"}`}
                     disabled={!canGenerate || !!isGenerating || isBatchRunning}
                 >
                     <MonitorPlay className="w-4 h-4" />
@@ -1157,10 +1164,10 @@ export default function Dashboard() {
             </div>
           </section>
 
-          <aside className="w-[380px] border-l border-white/5 bg-[#080808a0] backdrop-blur-3xl px-8 py-10 flex flex-col gap-8 z-30 transition-all duration-700 no-scrollbar overflow-y-auto">
+          <aside className="w-[380px] border-l border-zinc-200 bg-white/50 backdrop-blur-3xl px-8 py-10 flex flex-col gap-8 z-30 transition-all duration-700 no-scrollbar overflow-y-auto">
              <div className="flex items-center gap-3">
-                <LayoutPanelLeft className="w-4 h-4 text-indigo-400" />
-                <h3 className="text-[10px] font-black text-white uppercase tracking-[.4em]">Result History</h3>
+                <LayoutPanelLeft className="w-4 h-4 text-indigo-600" />
+                <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-[.4em]">Result History</h3>
              </div>
 
              <div className="flex-1 grid grid-cols-2 gap-4 no-scrollbar pr-1 content-start">
@@ -1171,7 +1178,7 @@ export default function Dashboard() {
                             {!shotGallery[shot.id] && canGenerate && (
                                 <button 
                                     onClick={() => handleGenerateShot(shot.id)}
-                                    className="p-1 px-1.5 rounded bg-zinc-950 border border-white/5 text-[7px] font-bold text-zinc-400 hover:text-indigo-400 hover:border-indigo-500/30 transition-all uppercase"
+                                    className="p-1 px-1.5 rounded bg-white border border-zinc-200 text-[7px] font-bold text-zinc-400 hover:text-indigo-600 hover:border-indigo-300 transition-all uppercase shadow-sm"
                                     disabled={!!isGenerating || isBatchRunning}
                                 >
                                     Gen
@@ -1182,8 +1189,8 @@ export default function Dashboard() {
                             onClick={() => shotGallery[shot.id] && setCurrentShot(shot.id)}
                             className={`w-full aspect-[3/4] rounded-xl border-2 transition-all duration-300 overflow-hidden relative group
                             ${shotGallery[shot.id] 
-                                ? (currentShot === shot.id ? "border-indigo-500 shadow-xl shadow-indigo-500/20" : "border-white/5 hover:border-white/10") 
-                                : "border-dashed border-zinc-900 bg-zinc-950/10"}`}
+                                ? (currentShot === shot.id ? "border-indigo-600 shadow-xl shadow-indigo-100" : "border-zinc-100 hover:border-zinc-200") 
+                                : "border-dashed border-zinc-200 bg-zinc-50"}`}
                         >
                             {shotGallery[shot.id] ? (
                                 <div className="absolute inset-0">
@@ -1195,7 +1202,7 @@ export default function Dashboard() {
                                       sizes="200px"
                                     />
                                     <div className="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                        <Layers className="w-4 h-4 text-indigo-400" />
+                                        <Layers className="w-4 h-4 text-indigo-600" />
                                     </div>
                                 </div>
                             ) : (
@@ -1208,12 +1215,12 @@ export default function Dashboard() {
                 ))}
              </div>
 
-             <div className="pt-6 border-t border-white/5">
-                <div className="p-4 rounded-2xl bg-zinc-950 border border-white/5 flex flex-col gap-3">
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-widest leading-none">Catalog Sync</p>
+             <div className="pt-6 border-t border-zinc-100">
+                <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-100 flex flex-col gap-3">
+                    <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest leading-none">Catalog Sync</p>
                     <div className="flex items-center gap-2">
                         {[1,2,3,4].map(idx => (
-                            <div key={idx} className={`w-2 h-2 rounded-full ${shotGallery[shots[idx-1].id] ? "bg-indigo-500 animate-pulse" : "bg-zinc-900"}`} />
+                            <div key={idx} className={`w-2 h-2 rounded-full ${shotGallery[shots[idx-1].id] ? "bg-indigo-600 animate-pulse" : "bg-zinc-200"}`} />
                         ))}
                     </div>
                 </div>

@@ -376,15 +376,15 @@ function StudioCard({
       onClick={onClick}
       className={`text-left p-5 rounded-2xl border transition-all duration-300 w-full ${
         isActive
-          ? "bg-zinc-900 text-white border-zinc-800 shadow-lg"
-          : "bg-white border-zinc-100 hover:border-zinc-200 text-zinc-900"
+          ? "bg-indigo-50 text-indigo-900 border-indigo-200 shadow-md"
+          : "bg-white border-zinc-100 hover:border-zinc-200 text-zinc-900 shadow-sm"
       }`}
     >
       <div className="flex items-center gap-3 mb-2">
-        <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-zinc-400"}`} />
+        <Icon className={`w-4 h-4 ${isActive ? "text-indigo-600" : "text-zinc-400"}`} />
         <span className="text-[13px] font-semibold">{studio.label}</span>
       </div>
-      <p className={`text-[12px] leading-relaxed ${isActive ? "text-zinc-400" : "text-zinc-500"}`}>
+      <p className={`text-[12px] leading-relaxed ${isActive ? "text-indigo-700/70" : "text-zinc-500"}`}>
         {studio.headline}
       </p>
       {isActive && (
@@ -396,7 +396,7 @@ function StudioCard({
           {studio.modes.map((m) => (
             <span
               key={m}
-              className="text-[10px] bg-white/10 text-zinc-300 px-2.5 py-1 rounded-full"
+              className="text-[10px] bg-white border border-indigo-100 text-indigo-600 px-2.5 py-1 rounded-full shadow-sm"
             >
               {m}
             </span>
@@ -861,33 +861,33 @@ export default function LandingPage() {
             </FadeIn>
 
             {/* STARTER */}
-            <FadeIn delay={0.1} className="bg-zinc-900 rounded-3xl border border-zinc-800 p-8 flex flex-col relative hover:shadow-lg transition-shadow ring-2 ring-zinc-900 ring-offset-2 ring-offset-zinc-50">
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-widest">
+            <FadeIn delay={0.1} className="bg-white rounded-3xl border-2 border-indigo-600 p-8 flex flex-col relative hover:shadow-xl transition-shadow ring-4 ring-indigo-50">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-indigo-600 text-white text-[11px] font-bold uppercase tracking-widest">
                 Most Popular
               </div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Zap className="w-4 h-4 text-white" />
+                <div className="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-indigo-600" />
                 </div>
                 <div>
                   <p className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">For growing brands</p>
-                  <h3 className="text-[16px] font-bold text-white">Starter</h3>
+                  <h3 className="text-[16px] font-bold text-zinc-900">Starter</h3>
                 </div>
               </div>
               <div className="mb-2">
-                <span className="text-4xl font-bold text-white">₹999</span>
-                <span className="text-zinc-400 text-sm ml-1">/ month</span>
+                <span className="text-4xl font-bold text-zinc-900">₹999</span>
+                <span className="text-zinc-500 text-sm ml-1">/ month</span>
               </div>
-              <p className="text-[13px] text-zinc-300 mb-1">75 AI generations / month</p>
-              <p className="text-[12px] text-zinc-500 mb-6">≈ ₹13.3 per image</p>
-              <Link href="/sign-up?plan=STARTER" className="w-full py-3 rounded-2xl bg-white text-zinc-900 text-[13px] font-semibold text-center hover:bg-zinc-100 transition-colors mb-8">
+              <p className="text-[13px] text-zinc-500 mb-1">75 AI generations / month</p>
+              <p className="text-[12px] text-zinc-400 mb-6">≈ ₹13.3 per image</p>
+              <Link href="/sign-up?plan=STARTER" className="w-full py-3 rounded-2xl bg-indigo-600 text-white text-[13px] font-semibold text-center hover:bg-indigo-700 transition-colors mb-8 shadow-lg shadow-indigo-100">
                 Start Selling
               </Link>
-              <div className="border-t border-white/10 pt-6 space-y-3 flex-1">
+              <div className="border-t border-zinc-100 pt-6 space-y-3 flex-1">
                 {["75 AI generations / month", "All studio types", "HD resolution output", "15+ AI models", "AI Fix Canvas", "Priority email support", "Generation history"].map(f => (
                   <div key={f} className="flex items-center gap-2.5">
-                    <Check className="w-4 h-4 text-white flex-shrink-0" />
-                    <span className="text-[13px] text-zinc-300">{f}</span>
+                    <Check className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                    <span className="text-[13px] text-zinc-600">{f}</span>
                   </div>
                 ))}
               </div>
@@ -961,28 +961,28 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 px-6 bg-zinc-900 text-white">
+      <section className="py-24 md:py-32 px-6 bg-white border-t border-zinc-100">
         <div className="max-w-[640px] mx-auto text-center">
           <FadeIn>
-            <h2 className="text-[36px] md:text-[48px] font-semibold tracking-tight leading-tight mb-6">
+            <h2 className="text-[36px] md:text-[48px] font-semibold tracking-tight leading-tight text-zinc-900 mb-6">
               Ready to automate your
               <br />
               product photography?
             </h2>
-            <p className="text-[16px] text-zinc-400 mb-10">
+            <p className="text-[16px] text-zinc-500 mb-10">
               Join brands that have cut shoot costs by 90% and reduced turnaround
               from weeks to hours.
             </p>
             <div className="flex items-center justify-center gap-3 flex-wrap">
               <Link
                 href="/studio"
-                className="inline-flex items-center gap-2 bg-white text-zinc-900 text-[14px] font-medium px-8 py-3 rounded-full hover:bg-zinc-100 transition-colors"
+                className="inline-flex items-center gap-2 bg-black text-white text-[14px] font-medium px-8 py-3 rounded-full hover:bg-zinc-800 transition-colors shadow-lg shadow-zinc-200"
               >
                 Get Started Free <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/studio"
-                className="inline-flex items-center gap-2 border border-zinc-700 text-zinc-300 text-[14px] font-medium px-8 py-3 rounded-full hover:border-zinc-600 transition-colors"
+                className="inline-flex items-center gap-2 border border-zinc-200 text-zinc-600 text-[14px] font-medium px-8 py-3 rounded-full hover:bg-zinc-50 transition-colors"
               >
                 Book a Demo
               </Link>
