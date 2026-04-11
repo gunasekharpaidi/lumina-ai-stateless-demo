@@ -281,7 +281,7 @@ const CanvasEditor = ({
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-full border border-zinc-200 p-0.5 bg-white shadow-sm ring-2 ring-zinc-50">
-                            <UserButton signOutUrl="/" />
+                            <UserButton />
                         </div>
                         <div className="flex bg-zinc-100 rounded-xl p-1 border border-zinc-200">
                             <div className="flex items-center gap-1 bg-white rounded-lg px-3 py-2 border border-indigo-400/20 shadow-sm">
