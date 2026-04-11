@@ -52,6 +52,8 @@ import {
   Upload
 } from "lucide-react";
 import { useStudioStore, ApparelMode, Gender, Ethnicity, SkinTone, StudioType, ShotType, Environment, MODEL_LIBRARY } from "@/lib/store";
+import { UserButton, useUser } from "@clerk/nextjs";
+
 
 // Helper for image optimization
 const downscaleImage = (base64: string, maxDim: number = 1024): Promise<string> => {
