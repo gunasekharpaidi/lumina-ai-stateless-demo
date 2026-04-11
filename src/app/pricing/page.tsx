@@ -157,8 +157,9 @@ const plans = [
     ],
     cta: "Start Selling",
     popular: true,
-    lightBg: "bg-zinc-900", // Keep most popular as dark as per plan
-    dark: true,
+    lightBg: "bg-white",
+    dark: false,
+    featured: true, // Use a new flag for the 'Most Popular' highlighting
   },
   {
     id: "PRO",
@@ -234,10 +235,10 @@ export default function PricingPage() {
             {plans.map((plan, idx) => {
               const Icon = plan.icon;
               return (
-                <FadeIn key={plan.id} delay={idx * 0.1} className={`rounded-3xl border p-8 flex flex-col hover:shadow-xl transition-all relative ${
-                  plan.dark 
-                  ? "bg-zinc-900 border-zinc-800 text-white shadow-2xl ring-2 ring-zinc-900 ring-offset-4" 
-                  : "bg-white border-zinc-200 text-zinc-900"
+                <FadeIn key={plan.id} delay={idx * 0.1} className={`rounded-3xl border p-8 flex flex-col hover:shadow-2xl transition-all relative ${
+                  plan.id === "STARTER" 
+                  ? "bg-white border-indigo-600 shadow-2xl ring-8 ring-indigo-50/50" 
+                  : "bg-white border-zinc-200 text-zinc-900 shadow-sm"
                 }`}>
                   {plan.popular && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-zinc-900 text-white text-[10px] font-black uppercase tracking-widest border border-zinc-800 shadow-xl">
@@ -248,25 +249,25 @@ export default function PricingPage() {
                   {/* Icon + Name */}
                   <div className="flex items-center gap-3 mb-8">
                     <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
-                      plan.dark ? "bg-white/10" : "bg-zinc-50"
+                      plan.id === "STARTER" ? "bg-indigo-600 shadow-md shadow-indigo-100" : "bg-zinc-50"
                     }`}>
-                      <Icon className={`w-5 h-5 ${plan.dark ? "text-white" : "text-zinc-500"}`} />
+                      <Icon className={`w-5 h-5 ${plan.id === "STARTER" ? "text-white" : "text-zinc-500"}`} />
                     </div>
                     <div>
                       <p className={`text-[10px] uppercase tracking-widest font-black ${
-                        plan.dark ? "text-zinc-500" : "text-zinc-400"
+                        plan.id === "STARTER" ? "text-indigo-600" : "text-zinc-400"
                       }`}>{plan.tagline}</p>
-                      <h3 className="text-[18px] font-bold tracking-tight">{plan.name}</h3>
+                      <h3 className="text-[18px] font-bold tracking-tight text-zinc-900">{plan.name}</h3>
                     </div>
                   </div>
 
                   {/* Price */}
                   <div className="mb-2">
-                    <span className="text-4xl font-bold">
+                    <span className="text-4xl font-black text-zinc-900 tracking-tighter">
                       {plan.price === null ? "Custom" : `${plan.currency}${plan.price.toLocaleString()}`}
                     </span>
                     {plan.price !== null && (
-                      <span className={`text-[13px] ml-1 ${plan.dark ? "text-zinc-500" : "text-zinc-400"}`}>
+                      <span className={`text-[13px] ml-1 text-zinc-400 font-bold uppercase`}>
                         {plan.id === "FREE" ? "forever" : "/ month"}
                       </span>
                     )}
@@ -291,9 +292,9 @@ export default function PricingPage() {
                       else if (plan.id === "ENTERPRISE") router.push("mailto:hello@luminapro.ai");
                       else router.push(`/sign-up?plan=${plan.id}`);
                     }}
-                    className={`w-full py-3.5 rounded-2xl text-[13px] font-bold transition-all mb-8 ${
-                      plan.dark
-                      ? "bg-white text-zinc-900 hover:bg-zinc-100"
+                    className={`w-full py-4 rounded-2xl text-[13px] font-black uppercase tracking-widest transition-all mb-8 shadow-lg ${
+                      plan.id === "STARTER"
+                      ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100"
                       : "bg-zinc-900 text-white hover:bg-black"
                     }`}
                   >
