@@ -4,75 +4,99 @@ import prisma from "@/lib/db";
 import { GoogleGenAI } from "@google/genai";
 import { uploadResultImage } from "@/lib/storage";
 
-// Initialize AI Client once using the correct environment variable
+// Initialize AI Client once
 const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENAI_API_KEY! });
 
-// @ts-ignore - Inngest types can be tricky depending on version installed
+// Model fallback chain - most advanced first
+const MODEL_TIERS = [
+  "gemini-3.1-flash-image-preview",
+  "gemini-3-pro-image-preview",
+  "gemini-2.5-flash-preview-05-20", // Known working stable model
+];
+
+async function generateWithFallback(prompt: string): Promise<Buffer> {
+  let lastError: any = null;
+
+  for (const modelId of MODEL_TIERS) {
+    try {
+      console.log(`[AI] Attempting synthesis with ${modelId}...`);
+
+      const result = await genAI.models.generateContent({
+        model: modelId,
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        config: { responseModalities: ["IMAGE"] },
+      });
+
+      const part = result.candidates?.[0]?.content?.parts?.find(
+        (p: any) => p.inlineData
+      );
+
+      if (part?.inlineData?.data) {
+        console.log(`[AI] ✅ Success with ${modelId}`);
+        return Buffer.from(part.inlineData.data, "base64");
+      }
+
+      throw new Error("No image data in response");
+    } catch (err: any) {
+      lastError = err;
+      console.warn(`[AI] ⚠️ Model ${modelId} failed: ${err.message}`);
+      // Continue to next tier
+    }
+  }
+
+  throw new Error(
+    `Synthesis Failed: All models exhausted. Last error: ${lastError?.message}`
+  );
+}
+
+// @ts-ignore
 export const processAIGeneration = inngest.createFunction(
   { id: "process-ai-generation", triggers: [{ event: "studio/generate.requested" }] },
-  async ({ event, step }: { event: any, step: any }) => {
+  async ({ event, step }: { event: any; step: any }) => {
     const { generationId, inputUrl, prompt, category } = event.data;
 
-    // 1. Update the database to show it's processing
-    await step.run("update-status-processing", async () => {
-      await prisma.generation.update({
-        where: { id: generationId },
-        data: { status: "processing" },
-      });
-    });
-
-    // 2. Fetch input image as buffer if it's already on Supabase or web 
-    // We need to pass data to Gemini as a proper part for multimodal.
-    // If the model is pure generation from text, we only pass prompt.
-    // But since this is a Product Studio, we likely want the garment to be reference.
-    const generatedUrl = await step.run("run-ai-model", async () => {
-      try {
-        const model = genAI.models.get("gemini-2.5-flash-image"); // Using the model from your tests
-        
-        // Enhance the prompt automatically to be higher quality
-        const enhancedPrompt = `High quality product photograph of ${category}: ${prompt}. Cinematic lighting, 4k resolution, editorial style.`;
-
-        // CALL REAL AI MODEL
-        const response = await model.generateContent({
-          contents: [{ 
-            role: "user", 
-            parts: [{ text: enhancedPrompt }] 
-            // Note: If you want to use the product image as a reference, 
-            // you'd need to fetch and pass it as an inlineData part here.
-          }],
-          config: { responseModalities: ["IMAGE"] }
+    try {
+      // 1. Mark as processing
+      await step.run("update-status-processing", async () => {
+        await prisma.generation.update({
+          where: { id: generationId },
+          data: { status: "processing" },
         });
-
-        const part = response.candidates[0].content.parts[0];
-        
-        if (part.inlineData) {
-          // Convert base64 data to Buffer
-          const buffer = Buffer.from(part.inlineData.data, "base64");
-          const filename = `${generationId}-output.png`;
-          
-          // Upload result directly to Supabase storage!
-          const publicUrl = await uploadResultImage(buffer, filename, part.inlineData.mimeType);
-          return publicUrl;
-        }
-
-        throw new Error("No image data returned from Gemini");
-      } catch (err: any) {
-        console.error("Gemini Generation Failed:", err);
-        throw err; // Allow Inngest to retry or fail the step
-      }
-    });
-
-    // 3. Mark the generation as completed in the DB with the new url
-    await step.run("update-status-completed", async () => {
-      await prisma.generation.update({
-        where: { id: generationId },
-        data: { 
-          status: "completed",
-          outputUrl: generatedUrl
-        },
       });
-    });
 
-    return { success: true, generationId, url: generatedUrl };
+      // 2. Run AI with fallback chain
+      const generatedUrl = await step.run("run-ai-model", async () => {
+        const enhancedPrompt = `High quality professional product photograph of ${category}: ${prompt}. Cinematic lighting, 4k resolution, sharp focus, editorial style, white background.`;
+        const imageBuffer = await generateWithFallback(enhancedPrompt);
+        const filename = `${generationId}-output.png`;
+        const publicUrl = await uploadResultImage(imageBuffer, filename, "image/png");
+        return publicUrl;
+      });
+
+      // 3. Mark as completed
+      await step.run("update-status-completed", async () => {
+        await prisma.generation.update({
+          where: { id: generationId },
+          data: {
+            status: "completed",
+            outputUrl: generatedUrl,
+          },
+        });
+      });
+
+      return { success: true, generationId, url: generatedUrl };
+    } catch (error: any) {
+      console.error("[AI] Critical Generation Failure:", error.message);
+
+      // Mark as failed so the UI shows "Synthesis Failed"
+      await step.run("update-status-failed", async () => {
+        await prisma.generation.update({
+          where: { id: generationId },
+          data: { status: "failed" },
+        });
+      });
+
+      throw error; // Re-throw for Inngest visibility/retry
+    }
   }
 );

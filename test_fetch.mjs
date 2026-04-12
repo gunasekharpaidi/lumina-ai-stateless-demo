@@ -1,4 +1,4 @@
-const apiKey = 'AIzaSyA8AS4J-0xj3M25fP81wIK01ctqXHWBl8M';
+const apiKey = process.env.GOOGLE_GENAI_API_KEY;
 
 async function test() {
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
@@ -12,12 +12,12 @@ async function test() {
   if (textJson.error) console.log("Text Error:", textJson.error);
   else console.log("Text Success!");
 
-  const imgRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key=${apiKey}`, {
+  const imgRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      instances: [{ prompt: "A red shoe" }],
-      parameters: { sampleCount: 1 }
+      contents: [{ role: 'user', parts: [{ text: "A high quality product photograph of a red leather shoe, 4k resolution" }] }],
+      generationConfig: { responseModalities: ["IMAGE"] }
     })
   });
   const imgJson = await imgRes.json();
