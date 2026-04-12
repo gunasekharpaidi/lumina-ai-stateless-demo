@@ -10,27 +10,28 @@ html {
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #09090b;
+  --background: #fdfdfd;
+  --foreground: #020617; /* Slate 950 for deep headers */
   --card: #ffffff;
-  --card-foreground: #09090b;
+  --card-foreground: #0f172a; /* Slate 900 for secondary headers */
   --popover: #ffffff;
-  --popover-foreground: #09090b;
-  --primary: #09090b;
-  --primary-foreground: #fafafa;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #09090b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #09090b;
+  --popover-foreground: #020617;
+  --primary: #4f46e5; /* Elite Indigo */
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9; /* Slate 100 base */
+  --secondary-foreground: #0f172a;
+  --muted: #f8fafc; /* Slate 50 ultra-light */
+  --muted-foreground: #64748b; /* Slate 500 */
+  --accent: #eef2ff; /* Indigo 50 */
+  --accent-foreground: #4f46e5;
   --destructive: #ef4444;
   --destructive-foreground: #fafafa;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #09090b;
-  --radius: 0.5rem;
+  --border: #e2e8f0; /* Slate 200 soft borders */
+  --input: #e2e8f0;
+  --ring: #6366f1;
+  --radius: 1rem; /* Slightly softer radius for premium feel */
 }
+
 
 body {
   background: var(--background);
@@ -65,3 +66,24 @@ body {
 .tracking-tight-pro {
     letter-spacing: -0.02em;
 }
+
+@layer utilities {
+  .shadow-premium {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+  }
+  .shadow-elite {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .text-premium-secondary {
+    color: rgba(15, 23, 42, 0.6); /* Slate 900 at 60% opacity */
+  }
+  .text-premium-muted {
+    color: rgba(15, 23, 42, 0.4); /* Slate 900 at 40% opacity */
+  }
+}
+

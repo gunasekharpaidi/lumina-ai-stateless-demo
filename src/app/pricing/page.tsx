@@ -69,7 +69,7 @@ function Navbar() {
   if (!mounted || !isLoaded) return <div className="h-16" />;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md z-50 border-b border-zinc-100 px-6">
+    <nav className="fixed top-0 left-0 right-0 h-[64px] bg-white/70 backdrop-blur-xl z-50 border-b border-zinc-100/50 shadow-sm px-6">
       <div className="max-w-[1280px] mx-auto h-full flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
@@ -221,11 +221,11 @@ export default function PricingPage() {
         <div className="max-w-[1280px] mx-auto">
           {/* Header */}
           <FadeIn className="text-center mb-20">
-            <p className="text-[12px] font-semibold uppercase tracking-[.2em] text-zinc-400 mb-4">Pricing</p>
-            <h1 className="text-[40px] md:text-[56px] font-semibold tracking-tight leading-tight mb-6">
-              Simple, transparent pricing
+            <p className="text-[12px] font-black uppercase tracking-[.3em] text-indigo-500/80 mb-6">Subscription Plans</p>
+            <h1 className="text-[40px] md:text-[64px] font-extrabold tracking-tight leading-[1.05] mb-8 text-zinc-950">
+              Simple, transparent pricing.
             </h1>
-            <p className="text-[18px] text-zinc-500 max-w-xl mx-auto">
+            <p className="text-[18px] text-premium-secondary max-w-xl mx-auto font-medium">
               Start free. Scale as your catalogue grows. No hidden fees, no surprises.
             </p>
           </FadeIn>
@@ -235,55 +235,59 @@ export default function PricingPage() {
             {plans.map((plan, idx) => {
               const Icon = plan.icon;
               return (
-                <FadeIn key={plan.id} delay={idx * 0.1} className={`rounded-3xl border p-8 flex flex-col hover:shadow-2xl transition-all relative ${
+                <FadeIn key={plan.id} delay={idx * 0.1} className={`rounded-[32px] border p-10 flex flex-col hover:shadow-elite transition-all duration-500 relative group h-full ${
                   plan.id === "STARTER" 
-                  ? "bg-white border-indigo-600 shadow-2xl ring-8 ring-indigo-50/50" 
-                  : "bg-white border-zinc-200 text-zinc-900 shadow-sm"
+                  ? "bg-white border-indigo-200 shadow-elite ring-[12px] ring-indigo-50/30 scale-[1.02] z-10" 
+                  : "bg-white border-zinc-100 text-zinc-900 shadow-premium hover:border-indigo-100"
                 }`}>
+                  {plan.id === "STARTER" && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/20 to-transparent rounded-[32px] pointer-events-none" />
+                  )}
+
                   {plan.popular && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-zinc-900 text-white text-[10px] font-black uppercase tracking-widest border border-zinc-800 shadow-xl">
-                      Most Popular
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-1.5 rounded-full bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[.2em] shadow-lg shadow-indigo-200 border border-indigo-500 ring-4 ring-white">
+                      Recommended
                     </div>
                   )}
 
                   {/* Icon + Name */}
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
-                      plan.id === "STARTER" ? "bg-indigo-600 shadow-md shadow-indigo-100" : "bg-zinc-50"
+                  <div className="flex items-center gap-4 mb-10">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500 ${
+                      plan.id === "STARTER" ? "bg-indigo-600 shadow-xl shadow-indigo-200" : "bg-zinc-50 border border-zinc-100"
                     }`}>
-                      <Icon className={`w-5 h-5 ${plan.id === "STARTER" ? "text-white" : "text-zinc-500"}`} />
+                      <Icon className={`w-6 h-6 ${plan.id === "STARTER" ? "text-white" : "text-zinc-400"}`} />
                     </div>
                     <div>
-                      <p className={`text-[10px] uppercase tracking-widest font-black ${
+                      <p className={`text-[10px] uppercase tracking-[.2em] font-black mb-1 ${
                         plan.id === "STARTER" ? "text-indigo-600" : "text-zinc-400"
                       }`}>{plan.tagline}</p>
-                      <h3 className="text-[18px] font-bold tracking-tight text-zinc-900">{plan.name}</h3>
+                      <h3 className="text-[20px] font-black tracking-tight text-zinc-950 uppercase">{plan.name}</h3>
                     </div>
                   </div>
 
                   {/* Price */}
-                  <div className="mb-2">
-                    <span className="text-4xl font-black text-zinc-900 tracking-tighter">
+                  <div className="mb-3">
+                    <span className="text-5xl font-black text-zinc-950 tracking-tighter">
                       {plan.price === null ? "Custom" : `${plan.currency}${plan.price.toLocaleString()}`}
                     </span>
                     {plan.price !== null && (
-                      <span className={`text-[13px] ml-1 text-zinc-400 font-bold uppercase`}>
-                        {plan.id === "FREE" ? "forever" : "/ month"}
+                      <span className={`text-[13px] ml-2 text-premium-muted font-bold uppercase tracking-wider`}>
+                        {plan.id === "FREE" ? "forever" : "/ mo"}
                       </span>
                     )}
                   </div>
                   
                   {plan.credits !== null && (
-                    <p className={`text-[13px] mb-1 ${plan.dark ? "text-zinc-300" : "text-zinc-400"}`}>
+                    <p className="text-[14px] mb-1 text-premium-secondary font-bold">
                       {plan.credits} AI generations total
                     </p>
                   )}
                   {plan.pricePerImage && (
-                    <p className={`text-[12px] mb-8 ${plan.dark ? "text-zinc-500" : "text-zinc-400"}`}>
+                    <p className="text-[12px] mb-10 text-premium-muted font-medium">
                       {plan.pricePerImage}
                     </p>
                   )}
-                  {!plan.pricePerImage && <div className="mb-8" />}
+                  {!plan.pricePerImage && <div className="mb-10" />}
 
                   {/* CTA */}
                   <button
@@ -292,10 +296,10 @@ export default function PricingPage() {
                       else if (plan.id === "ENTERPRISE") router.push("mailto:hello@luminapro.ai");
                       else router.push(`/sign-up?plan=${plan.id}`);
                     }}
-                    className={`w-full py-4 rounded-2xl text-[13px] font-black uppercase tracking-widest transition-all mb-8 shadow-lg ${
+                    className={`w-full py-4 rounded-2xl text-[12px] font-black uppercase tracking-[.2em] transition-all mb-10 shadow-lg active:scale-95 ${
                       plan.id === "STARTER"
-                      ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100"
-                      : "bg-zinc-900 text-white hover:bg-black"
+                      ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-200/50"
+                      : "bg-zinc-950 text-white hover:bg-black shadow-zinc-200"
                     }`}
                   >
                     {plan.cta}
@@ -308,12 +312,8 @@ export default function PricingPage() {
                   <ul className="space-y-4 flex-1">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-3">
-                        <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                          plan.dark ? "text-white" : "text-zinc-400"
-                        }`} />
-                        <span className={`text-[13px] leading-snug ${
-                          plan.dark ? "text-zinc-300" : "text-zinc-500"
-                        }`}>{feature}</span>
+                        <Check className="w-4 h-4 mt-0.5 flex-shrink-0 text-indigo-600" />
+                        <span className="text-[13px] leading-snug text-premium-secondary font-medium">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -323,11 +323,11 @@ export default function PricingPage() {
           </div>
 
           {/* Footer Info */}
-          <FadeIn delay={0.5} className="mt-20 text-center border-t border-zinc-100 pt-10">
-            <p className="text-[13px] text-zinc-400 max-w-lg mx-auto leading-relaxed">
+          <FadeIn delay={0.5} className="mt-24 text-center border-t border-zinc-100/50 pt-12">
+            <p className="text-[13px] text-premium-muted max-w-lg mx-auto leading-relaxed font-medium transition-colors hover:text-premium-secondary">
               All plans include SSL encryption, GDPR compliance, and 99.9% uptime SLA. 
               <br />
-              <span className="font-medium text-zinc-500">No credit card required for Free plan.</span>
+              <span className="font-bold text-indigo-500/80">No credit card required for Free plan.</span>
             </p>
           </FadeIn>
         </div>
@@ -336,10 +336,10 @@ export default function PricingPage() {
       {/* Trust section from homepage */}
       <section className="py-24 bg-zinc-50 border-t border-zinc-100 mt-12">
         <div className="max-w-[1280px] mx-auto px-6 text-center">
-          <div className="flex flex-wrap justify-center gap-12 text-zinc-400">
+          <div className="flex flex-wrap justify-center gap-12 text-premium-secondary">
             {["10,000+ brands trust us", "50M+ images generated", "Average 4.9★ rating", "Cancel anytime"].map((item) => (
-              <div key={item} className="flex items-center gap-2.5 text-[14px] font-medium">
-                <Check className="w-4 h-4 text-zinc-900" />
+              <div key={item} className="flex items-center gap-3 text-[14px] font-extrabold uppercase tracking-widest text-zinc-950/40 hover:text-indigo-600 transition-colors cursor-default">
+                <Check className="w-4 h-4 text-indigo-600" />
                 {item}
               </div>
             ))}

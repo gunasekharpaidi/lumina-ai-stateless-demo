@@ -232,11 +232,11 @@ function BeforeAfterSlider({
 
       {/* Divider line */}
       <div
-        className="absolute top-0 bottom-0 w-[2px] bg-white/90 z-10"
+        className="absolute top-0 bottom-0 w-px bg-white/40 z-10"
         style={{ left: `${position}%`, transform: "translateX(-50%)" }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-xl border border-zinc-200 flex items-center justify-center">
-          <GripVertical className="w-4 h-4 text-zinc-500" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/50 flex items-center justify-center">
+          <GripVertical className="w-5 h-5 text-indigo-600/80" />
         </div>
       </div>
 
@@ -306,7 +306,7 @@ function Navbar() {
   }, [isSignedIn]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100">
+    <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-100/50 shadow-sm">
       <div className="max-w-[1280px] mx-auto flex items-center justify-between px-6 h-[60px]">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-7 h-7 bg-black rounded-lg flex items-center justify-center">
@@ -316,11 +316,11 @@ function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-7">
-          <Link href="#how-it-works" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">How it Works</Link>
-          <Link href="#studios" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">Studios</Link>
-          <Link href="#capabilities" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">Capabilities</Link>
-          <Link href="#models" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">AI Models</Link>
-          <Link href="#pricing" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors">Pricing</Link>
+          <Link href="#how-it-works" className="text-[13px] text-premium-secondary hover:text-indigo-600 transition-colors font-medium">How it Works</Link>
+          <Link href="#studios" className="text-[13px] text-premium-secondary hover:text-indigo-600 transition-colors font-medium">Studios</Link>
+          <Link href="#capabilities" className="text-[13px] text-premium-secondary hover:text-indigo-600 transition-colors font-medium">Capabilities</Link>
+          <Link href="#models" className="text-[13px] text-premium-secondary hover:text-indigo-600 transition-colors font-medium">AI Models</Link>
+          <Link href="#pricing" className="text-[13px] text-premium-secondary hover:text-indigo-600 transition-colors font-medium">Pricing</Link>
         </div>
 
         <div className="flex items-center gap-3">
@@ -349,7 +349,7 @@ function Navbar() {
               <Link href="/sign-in" className="text-[13px] text-zinc-500 hover:text-zinc-900 transition-colors hidden sm:block">Log in</Link>
               <Link
                 href="/sign-up"
-                className="bg-zinc-900 text-white text-[13px] font-medium px-5 py-2 rounded-full hover:bg-black transition-colors"
+                className="bg-zinc-900 text-white text-[13px] font-bold px-6 py-2.5 rounded-full hover:bg-black transition-all shadow-lg hover:shadow-indigo-200/50"
               >
                 Open Studio
               </Link>
@@ -374,17 +374,22 @@ function StudioCard({
   return (
     <button
       onClick={onClick}
-      className={`text-left p-5 rounded-2xl border transition-all duration-300 w-full ${
+      className={`text-left p-6 rounded-[24px] border transition-all duration-500 w-full relative group ${
         isActive
-          ? "bg-indigo-50 text-indigo-900 border-indigo-200 shadow-md"
-          : "bg-white border-zinc-100 hover:border-zinc-200 text-zinc-900 shadow-sm"
+          ? "bg-white border-indigo-200 shadow-elite scale-[1.02]"
+          : "bg-white border-zinc-100 hover:border-indigo-100 text-zinc-900 shadow-premium hover:shadow-xl"
       }`}
     >
-      <div className="flex items-center gap-3 mb-2">
-        <Icon className={`w-4 h-4 ${isActive ? "text-indigo-600" : "text-zinc-400"}`} />
-        <span className="text-[13px] font-semibold">{studio.label}</span>
+      {isActive && (
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent rounded-[24px] -z-10" />
+      )}
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`p-2 rounded-xl transition-colors ${isActive ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "bg-zinc-50 text-zinc-400 group-hover:bg-indigo-50 group-hover:text-indigo-600"}`}>
+            <Icon className="w-4 h-4" />
+        </div>
+        <span className={`text-[13px] font-bold ${isActive ? "text-indigo-900" : "text-zinc-900"}`}>{studio.label}</span>
       </div>
-      <p className={`text-[12px] leading-relaxed ${isActive ? "text-indigo-700/70" : "text-zinc-500"}`}>
+      <p className={`text-[12px] leading-relaxed font-medium ${isActive ? "text-indigo-900/60" : "text-premium-secondary"}`}>
         {studio.headline}
       </p>
       {isActive && (
@@ -396,7 +401,7 @@ function StudioCard({
           {studio.modes.map((m) => (
             <span
               key={m}
-              className="text-[10px] bg-white border border-indigo-100 text-indigo-600 px-2.5 py-1 rounded-full shadow-sm"
+              className="text-[10px] bg-white border border-indigo-100/50 text-indigo-600 px-3 py-1.5 rounded-full shadow-sm font-bold uppercase tracking-wider"
             >
               {m}
             </span>
@@ -432,19 +437,19 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="py-20 lg:pr-16"
             >
-              <p className="text-[13px] text-zinc-400 font-medium mb-6 tracking-wide">
+              <p className="text-[13px] text-indigo-500/80 font-bold mb-6 tracking-[0.2em] uppercase">
                 AI Product Photography for Global Brands
               </p>
-              <h1 className="text-[44px] md:text-[54px] leading-[1.08] tracking-tight mb-6">
-                <span className="font-light text-zinc-400 italic block">
+              <h1 className="text-[44px] md:text-[54px] leading-[1.05] tracking-tight mb-8">
+                <span className="font-light text-zinc-400 italic block mb-2">
                   Every category.
                 </span>
-                <span className="font-semibold block">
+                <span className="font-extrabold block text-zinc-950">
                   Every model. Every shot.
                 </span>
-                <span className="font-semibold block">One studio.</span>
+                <span className="font-extrabold block bg-gradient-to-r from-zinc-950 to-indigo-600 bg-clip-text text-transparent">One studio.</span>
               </h1>
-              <p className="text-[16px] text-zinc-500 leading-relaxed max-w-[420px] mb-10">
+              <p className="text-[17px] text-premium-secondary leading-relaxed max-w-[440px] mb-12 font-medium">
                 From apparel to jewellery, home decor to pet fashion — Lumina
                 generates catalog-ready editorial photography at scale with AI
                 models that never change face.
@@ -452,13 +457,13 @@ export default function LandingPage() {
               <div className="flex items-center gap-3 flex-wrap">
                 <Link
                   href="/studio"
-                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-medium px-7 py-3 rounded-full hover:bg-black transition-colors"
+                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-bold px-8 py-4 rounded-full hover:bg-black transition-all shadow-xl hover:shadow-indigo-500/20 active:scale-95"
                 >
                   Open Studio <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="#how-it-works"
-                  className="inline-flex items-center gap-2 border border-zinc-200 text-zinc-600 text-[14px] font-medium px-7 py-3 rounded-full hover:border-zinc-300 transition-colors"
+                  className="inline-flex items-center gap-2 bg-white border border-zinc-200 text-zinc-600 text-[14px] font-bold px-8 py-4 rounded-full hover:border-indigo-200 hover:text-indigo-600 transition-all shadow-sm"
                 >
                   See How It Works
                 </Link>
@@ -508,15 +513,15 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-24 md:py-32 px-6">
         <div className="max-w-[1280px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] text-zinc-400 font-medium mb-3 tracking-wide">
+            <p className="text-[13px] text-indigo-500/80 font-bold mb-3 tracking-[0.2em] uppercase">
               See the Transformation
             </p>
-            <h2 className="text-[36px] md:text-[44px] font-semibold tracking-tight mb-4 leading-tight">
+            <h2 className="text-[36px] md:text-[44px] font-extrabold tracking-tight mb-6 leading-tight text-zinc-950">
               Upload a product photo.
               <br />
-              <span className="text-zinc-300">Get editorial-ready imagery.</span>
+              <span className="text-zinc-300 italic font-light">Get editorial-ready imagery.</span>
             </h2>
-            <p className="text-[16px] text-zinc-500 mb-12 max-w-lg">
+            <p className="text-[17px] text-premium-secondary mb-12 max-w-lg font-medium">
               Drag the slider to see how Lumina transforms raw product photos
               into professional, catalog-ready editorial shots.
             </p>
@@ -529,10 +534,10 @@ export default function LandingPage() {
                 <button
                   key={ba.category}
                   onClick={() => setActiveBA(i)}
-                  className={`px-5 py-2.5 rounded-full text-[13px] font-medium transition-all ${
+                  className={`px-6 py-3 rounded-full text-[13px] font-bold transition-all uppercase tracking-widest ${
                     activeBA === i
-                      ? "bg-zinc-900 text-white"
-                      : "bg-zinc-100 text-zinc-500 hover:bg-zinc-200"
+                      ? "bg-zinc-900 text-white shadow-xl shadow-zinc-200"
+                      : "bg-zinc-100 text-zinc-400 hover:bg-zinc-200 hover:text-zinc-600"
                   }`}
                 >
                   {ba.category}
@@ -571,18 +576,18 @@ export default function LandingPage() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <p className="text-[12px] text-zinc-400 font-medium mb-2 uppercase tracking-wider">
+                    <p className="text-[11px] text-indigo-500 font-black mb-3 uppercase tracking-[.3em]">
                       {currentBA.category}
                     </p>
-                    <h3 className="text-[24px] font-semibold mb-4 tracking-tight">
+                    <h3 className="text-[28px] font-extrabold mb-5 tracking-tight text-zinc-950">
                       {currentBA.label}
                     </h3>
-                    <p className="text-[15px] text-zinc-500 leading-relaxed mb-8">
+                    <p className="text-[16px] text-premium-secondary leading-relaxed mb-10 font-medium">
                       {currentBA.desc}
                     </p>
                     <Link
                       href="/studio"
-                      className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-medium px-6 py-3 rounded-full hover:bg-black transition-colors"
+                      className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-bold px-8 py-4 rounded-full hover:bg-black transition-all shadow-xl hover:shadow-zinc-200 active:scale-95"
                     >
                       Try it yourself <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -598,13 +603,13 @@ export default function LandingPage() {
       <section id="studios" className="py-24 md:py-32 px-6 bg-zinc-50">
         <div className="max-w-[1280px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] text-zinc-400 font-medium mb-3 tracking-wide">
+            <p className="text-[13px] text-indigo-500/80 font-bold mb-3 tracking-[0.2em] uppercase">
               Multi-Category AI Studios
             </p>
-            <h2 className="text-[36px] md:text-[44px] font-semibold tracking-tight mb-16 leading-tight">
+            <h2 className="text-[36px] md:text-[44px] font-extrabold tracking-tight mb-16 leading-tight text-zinc-950">
               Four specialized engines.
               <br />
-              <span className="text-zinc-300">One unified workflow.</span>
+              <span className="text-zinc-300 italic font-light">One unified workflow.</span>
             </h2>
           </FadeIn>
 
@@ -623,7 +628,7 @@ export default function LandingPage() {
               <FadeIn delay={0.2}>
                 <Link
                   href="/studio"
-                  className="mt-4 inline-flex items-center gap-2 text-[13px] font-medium text-zinc-900 hover:gap-3 transition-all"
+                  className="mt-6 inline-flex items-center gap-2 text-[13px] font-bold text-indigo-600 hover:gap-3 transition-all uppercase tracking-widest"
                 >
                   Open Studio <ChevronRight className="w-4 h-4" />
                 </Link>
@@ -650,13 +655,13 @@ export default function LandingPage() {
                         className="object-cover"
                         sizes="(max-width: 1024px) 100vw, 60vw"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                        <p className="text-white text-[20px] font-semibold">
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-10">
+                        <p className="text-white text-[24px] font-extrabold tracking-tight">
                           {current.headline}
                         </p>
                       </div>
                     </div>
-                    <p className="text-[14px] text-zinc-500 leading-relaxed">
+                    <p className="text-[15px] text-premium-secondary leading-relaxed font-medium">
                       {current.body}
                     </p>
                   </motion.div>
@@ -671,10 +676,10 @@ export default function LandingPage() {
       <section id="capabilities" className="py-24 md:py-32 px-6">
         <div className="max-w-[1280px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] text-zinc-400 font-medium mb-3 tracking-wide">
+            <p className="text-[13px] text-indigo-500/80 font-bold mb-3 tracking-[0.2em] uppercase">
               Built for Production
             </p>
-            <h2 className="text-[36px] md:text-[44px] font-semibold tracking-tight mb-16 leading-tight">
+            <h2 className="text-[36px] md:text-[44px] font-extrabold tracking-tight mb-16 leading-tight text-zinc-950">
               Not just another AI generator.
             </h2>
           </FadeIn>
@@ -684,12 +689,12 @@ export default function LandingPage() {
               const Icon = cap.icon;
               return (
                 <FadeIn key={cap.title} delay={i * 0.05}>
-                  <div className="bg-zinc-50 p-7 rounded-2xl border border-zinc-100 hover:border-zinc-200 transition-all hover:shadow-sm h-full">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-zinc-100 flex items-center justify-center mb-5">
-                      <Icon className="w-4 h-4 text-zinc-600" />
+                  <div className="bg-white p-8 rounded-[28px] border border-zinc-100/80 hover:border-indigo-100 transition-all hover:shadow-elite group h-full">
+                    <div className="w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all group-hover:shadow-lg group-hover:shadow-indigo-200">
+                      <Icon className="w-5 h-5 transition-transform group-hover:scale-110" />
                     </div>
-                    <h3 className="text-[15px] font-semibold mb-2">{cap.title}</h3>
-                    <p className="text-[13px] text-zinc-500 leading-relaxed">
+                    <h3 className="text-[16px] font-extrabold mb-3 text-zinc-950">{cap.title}</h3>
+                    <p className="text-[14px] text-premium-secondary leading-relaxed font-medium">
                       {cap.body}
                     </p>
                   </div>
@@ -706,13 +711,13 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
               <div>
-                <p className="text-[13px] text-zinc-400 font-medium mb-3 tracking-wide">
+                <p className="text-[13px] text-indigo-500/80 font-bold mb-3 tracking-[0.2em] uppercase">
                   Neural DNA Consistency
                 </p>
-                <h2 className="text-[36px] md:text-[44px] font-semibold tracking-tight mb-6 leading-tight">
+                <h2 className="text-[36px] md:text-[44px] font-extrabold tracking-tight mb-6 leading-tight text-zinc-950">
                   24 personas. Zero drift.
                 </h2>
-                <p className="text-[16px] text-zinc-500 leading-relaxed mb-8 max-w-md">
+                <p className="text-[17px] text-premium-secondary leading-relaxed mb-10 max-w-md font-medium">
                   Each model is defined by a Neural DNA Blueprint — age, ethnicity,
                   bone structure, body composition. Change the outfit 1,000 times.
                   The face stays the same.
@@ -726,16 +731,16 @@ export default function LandingPage() {
                   ].map((s) => (
                     <div
                       key={s.label}
-                      className="bg-white rounded-xl p-4 border border-zinc-100"
+                      className="bg-white rounded-2xl p-5 border border-zinc-100 shadow-premium group/stat hover:shadow-elite transition-all"
                     >
-                      <p className="text-[24px] font-bold">{s.val}</p>
-                      <p className="text-[12px] text-zinc-500">{s.label}</p>
+                      <p className="text-[26px] font-black text-indigo-600 tracking-tighter transition-transform group-hover/stat:scale-110 duration-300">{s.val}</p>
+                      <p className="text-[11px] text-premium-secondary font-bold uppercase tracking-widest">{s.label}</p>
                     </div>
                   ))}
                 </div>
                 <Link
                   href="/studio"
-                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-medium px-7 py-3 rounded-full hover:bg-black transition-colors"
+                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-[14px] font-bold px-8 py-4 rounded-full hover:bg-black transition-all shadow-xl hover:shadow-indigo-500/20 active:scale-95"
                 >
                   Try it now <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -761,10 +766,10 @@ export default function LandingPage() {
       <section className="py-24 md:py-32 px-6">
         <div className="max-w-[1280px] mx-auto text-center">
           <FadeIn>
-            <p className="text-[13px] text-zinc-400 font-medium mb-3 tracking-wide">
+            <p className="text-[13px] text-indigo-500/80 font-bold mb-3 tracking-[0.2em] uppercase">
               Three steps. That&apos;s it.
             </p>
-            <h2 className="text-[36px] md:text-[44px] font-semibold tracking-tight mb-16">
+            <h2 className="text-[36px] md:text-[44px] font-extrabold tracking-tight mb-16 text-zinc-950">
               Upload. Generate. Export.
             </h2>
           </FadeIn>
@@ -792,20 +797,21 @@ export default function LandingPage() {
             ].map((step, i) => (
               <FadeIn key={step.step} delay={i * 0.1}>
                 <div>
-                  <div className="rounded-2xl overflow-hidden bg-white aspect-[4/3] mb-6 border border-zinc-100 flex items-center justify-center p-4 relative">
+                  <div className="rounded-[32px] overflow-hidden bg-white aspect-[4/3] mb-8 border border-zinc-100/80 flex items-center justify-center p-8 relative shadow-premium group hover:shadow-elite transition-all duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <Image
                       src={step.image}
                       alt={step.title}
                       fill
-                      className="object-contain p-4"
+                      className="object-contain p-8 group-hover:scale-105 transition-transform duration-700"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
-                  <p className="text-[12px] text-zinc-400 font-medium mb-2">
-                    Step {step.step}
-                  </p>
-                  <h3 className="text-[17px] font-semibold mb-2">{step.title}</h3>
-                  <p className="text-[13px] text-zinc-500 leading-relaxed">
+                  <div className="flex items-center gap-4 mb-3">
+                    <span className="text-[32px] font-black text-indigo-600/20 tracking-tighter line-clamp-1">{step.step}</span>
+                    <h3 className="text-[18px] font-extrabold text-zinc-950 tracking-tight">{step.title}</h3>
+                  </div>
+                  <p className="text-[14px] text-premium-secondary leading-relaxed font-medium">
                     {step.body}
                   </p>
                 </div>
