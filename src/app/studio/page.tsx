@@ -52,7 +52,9 @@ import {
   Upload
 } from "lucide-react";
 import { useStudioStore, ApparelMode, Gender, Ethnicity, SkinTone, StudioType, ShotType, Environment, MODEL_LIBRARY } from "@/lib/store";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useUser, useAuth } from "@clerk/nextjs";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 
 // Helper for image optimization
@@ -360,18 +362,28 @@ export default function Dashboard() {
   const [userCredits, setUserCredits] = useState<number | null>(null);
   const [userPlan, setUserPlan] = useState<string>("FREE");
   const [totalCredits, setTotalCredits] = useState<number>(10);
+  const { getToken } = useAuth();
+
+  // Helper: authenticated fetch to Railway backend
+  const apiCall = async (path: string, options: RequestInit = {}) => {
+    const token = await getToken();
+    const headers = new Headers(options.headers);
+    headers.set("Authorization", `Bearer ${token}`);
+    return fetch(`${API_URL}${path}`, { ...options, headers });
+  };
 
   useEffect(() => {
-    fetch("/api/credits")
-      .then(r => r.json())
-      .then(data => {
+    (async () => {
+      try {
+        const res = await apiCall("/api/credits");
+        const data = await res.json();
         if (!data.error) {
           setUserCredits(data.credits);
           setUserPlan(data.plan);
           setTotalCredits(data.totalCredits);
         }
-      })
-      .catch(() => {});
+      } catch {}
+    })();
   }, []);
 
 
@@ -517,12 +529,12 @@ export default function Dashboard() {
   };
 
   const uploadToStorage = async (base64Str: string) => {
-    if (base64Str.startsWith("http")) return base64Str; // already uploaded
+    if (base64Str.startsWith("http")) return base64Str;
     const res = await fetch(base64Str);
     const blob = await res.blob();
     const formData = new FormData();
     formData.append("file", blob, "upload.jpg");
-    const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+    const uploadRes = await apiCall("/api/upload", { method: "POST", body: formData });
     const data = await uploadRes.json();
     return data.url;
   };
@@ -552,10 +564,10 @@ export default function Dashboard() {
         shotType: type
       };
 
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const response = await apiCall("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
       
       const data = await response.json();
@@ -573,7 +585,7 @@ export default function Dashboard() {
 
       while (!isComplete && attempts < 40) { // 80s Max Timeout
         await new Promise(resolve => setTimeout(resolve, 2000));
-        const statusRes = await fetch(`/api/generate/status?id=${generationId}`);
+        const statusRes = await apiCall(`/api/generate/status/${generationId}`);
         if (!statusRes.ok) continue;
         const statusData = await statusRes.json();
 
