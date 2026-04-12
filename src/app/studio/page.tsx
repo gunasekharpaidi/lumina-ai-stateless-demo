@@ -108,7 +108,7 @@ const DropzoneSlot = ({
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); }} />
       {image ? (
         <div className="w-full h-full relative rounded-2xl overflow-hidden group">
-          <img src={image} className="w-full h-full object-contain relative z-10" alt={label} />
+          <NextImage src={image} fill className="object-contain relative z-10" alt={label} sizes="(max-width: 400px) 100vw, 300px" />
           <div className="absolute top-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-all">
             <button onClick={(e) => { e.stopPropagation(); onRemove(); }} className="p-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white shadow-lg">
               <X className="w-4 h-4" />
@@ -252,7 +252,7 @@ const CanvasEditor = ({
     return (
         <div className="absolute inset-0 bg-white/95 z-[60] flex flex-col items-center justify-center p-10 animate-in fade-in duration-500 font-sans">
             <div className="relative group shadow-2xl rounded-[40px] overflow-hidden bg-white border border-zinc-200" style={{ aspectRatio: '3/4', maxHeight: '70vh' }}>
-                <img src={image} className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" alt="Base" />
+                <NextImage src={image} fill className="object-cover opacity-30 pointer-events-none" alt="Base" sizes="(max-width: 800px) 100vw, 800px" />
                 <canvas 
                     ref={canvasRef} width={600} height={800}
                     onMouseDown={handleStart} onMouseMove={handleMove} onMouseUp={handleEnd}
