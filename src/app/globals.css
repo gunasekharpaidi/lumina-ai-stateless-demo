@@ -7,29 +7,52 @@ html {
 @theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* DARK MODE INVERSION PALETTE */
+  --color-zinc-50: #09090b;
+  --color-zinc-100: #18181b;
+  --color-zinc-200: #27272a;
+  --color-zinc-300: #3f3f46;
+  --color-zinc-400: #52525b;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #a1a1aa;
+  --color-zinc-700: #d4d4d8;
+  --color-zinc-800: #e4e4e7;
+  --color-zinc-900: #f4f4f5;
+  --color-zinc-950: #fafafa;
+  --color-white: #09090b;
+  --color-black: #ffffff;
+  
+  --color-indigo-50: #1e1b4b; /* mapped to indigo-950 */
+  --color-indigo-100: #312e81; /* mapped to indigo-900 */
+  --color-indigo-200: #3730a3; /* mapped to indigo-800 */
+  
+  /* Retain bright primary indigo */
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
 }
 
 :root {
-  --background: #fdfdfd;
-  --foreground: #020617; /* Slate 950 for deep headers */
-  --card: #ffffff;
-  --card-foreground: #0f172a; /* Slate 900 for secondary headers */
-  --popover: #ffffff;
-  --popover-foreground: #020617;
-  --primary: #4f46e5; /* Elite Indigo */
+  --background: #09090b;
+  --foreground: #fafafa; 
+  --card: #09090b;
+  --card-foreground: #f4f4f5; 
+  --popover: #09090b;
+  --popover-foreground: #fafafa;
+  --primary: #4f46e5; /* Keep primary vibrant */
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9; /* Slate 100 base */
-  --secondary-foreground: #0f172a;
-  --muted: #f8fafc; /* Slate 50 ultra-light */
-  --muted-foreground: #64748b; /* Slate 500 */
-  --accent: #eef2ff; /* Indigo 50 */
-  --accent-foreground: #4f46e5;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --border: #e2e8f0; /* Slate 200 soft borders */
-  --input: #e2e8f0;
+  --secondary: #18181b; 
+  --secondary-foreground: #f4f4f5;
+  --muted: #18181b; 
+  --muted-foreground: #a1a1aa; 
+  --accent: #312e81; 
+  --accent-foreground: #eef2ff;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fef2f2;
+  --border: #27272a; 
+  --input: #27272a;
   --ring: #6366f1;
-  --radius: 1rem; /* Slightly softer radius for premium feel */
+  --radius: 1rem; 
 }
 
 
@@ -56,11 +79,11 @@ body {
 
 /* Custom Botika Utilities */
 .bg-smoke {
-    background-color: #f8f8f8;
+    background-color: #18181b; /* Dark smoke */
 }
 
 .text-onyx {
-    color: #111111;
+    color: #fafafa; /* inverted */
 }
 
 .tracking-tight-pro {
@@ -69,21 +92,20 @@ body {
 
 @layer utilities {
   .shadow-premium {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 10px 15px -3px rgba(0, 0, 0, 0.5);
   }
   .shadow-elite {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
   }
   .glass-card {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(9, 9, 11, 0.7);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   .text-premium-secondary {
-    color: rgba(15, 23, 42, 0.6); /* Slate 900 at 60% opacity */
+    color: rgba(244, 244, 245, 0.6); 
   }
   .text-premium-muted {
-    color: rgba(15, 23, 42, 0.4); /* Slate 900 at 40% opacity */
+    color: rgba(244, 244, 245, 0.4); 
   }
 }
-
