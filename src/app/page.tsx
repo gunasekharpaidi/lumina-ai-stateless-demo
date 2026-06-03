@@ -53,7 +53,7 @@ import {
 } from "lucide-react";
 import { useStudioStore, ApparelMode, Gender, Ethnicity, SkinTone, StudioType, ShotType, Environment, MODEL_LIBRARY } from "@/lib/store";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+const API_URL = "";
 
 
 // Helper for image optimization
@@ -525,14 +525,7 @@ export default function Dashboard() {
   };
 
   const uploadToStorage = async (base64Str: string) => {
-    if (base64Str.startsWith("http")) return base64Str;
-    const res = await fetch(base64Str);
-    const blob = await res.blob();
-    const formData = new FormData();
-    formData.append("file", blob, "upload.jpg");
-    const uploadRes = await apiCall("/api/upload", { method: "POST", body: formData });
-    const data = await uploadRes.json();
-    return data.url;
+    return base64Str;
   };
 
   const handleGenerateShot = async (type: ShotType, refImg?: string | null) => {
@@ -573,30 +566,11 @@ export default function Dashboard() {
         return null;
       }
 
-      // 3. Poll for Background Completion
-      const generationId = data.generationId;
-      let isComplete = false;
-      let finalUrl = null;
-      let attempts = 0;
-
-      while (!isComplete && attempts < 40) { // 80s Max Timeout
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        const statusRes = await apiCall(`/api/generate/status/${generationId}`);
-        if (!statusRes.ok) continue;
-        const statusData = await statusRes.json();
-
-        if (statusData.status === 'completed') {
-           isComplete = true;
-           finalUrl = statusData.outputUrl;
-        } else if (statusData.status === 'failed' || statusData.error) {
-           isComplete = true;
-           setGenerationError("The AI engine failed to process this image.");
-        }
-        attempts++;
-      }
+      // 3. Extract final URL (Generated Synchronously)
+      const finalUrl = data.outputUrl;
 
       if (!finalUrl) {
-         setGenerationError("Processing timed out. The cluster is heavily loaded.");
+         setGenerationError("Processing failed. No output URL returned.");
          setIsGenerating(null);
          return null;
       }
